@@ -228,6 +228,7 @@ async function boot(){
     state.mode = 'local';
     state.data = Object.assign(emptyData(), lsGet(LS_DATA, {}));
     emit();
+    if (window.GD_SEED){ try { await importSync(JSON.stringify(window.GD_SEED)); } catch (e) { console.warn('seed merge failed', e); } }
     return;
   }
   // paint the cache while the grant resolves

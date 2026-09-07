@@ -13,6 +13,14 @@ https://claude.ai/code/artifact/7bbd10ec-b896-42ee-876d-026bfe69f4a3
 Same app with `window.GD_PUBLIC = true`: per-device storage, and a **sync text** bridge (Settings) that copies the
 log as `GONZALO-SYNC-1` JSON to paste on another phone; entries merge by id, so repeated pastes never duplicate.
 Both editions have the bridge, so Minerva's phone and the shared log can exchange entries through WhatsApp.
+The family edition also ships with the shared log embedded as a seed (`window.GD_SEED`), merged idempotently on
+every open, so it starts with the full history. Regenerate before republishing:
+
+```
+# dump the shared store with the Artifact tool (read_db, out_dir=<dump>), then
+python3 make-seed.py <dump>   # writes seed.json (git-ignored, personal data)
+python3 build.py              # index-public.html embeds it (also git-ignored)
+```
 
 ## What it does
 

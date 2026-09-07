@@ -13,6 +13,8 @@ html = ''.join(parts)
 (root / 'index.html').write_text(html)
 print('index.html', len(html.encode()), 'bytes', datetime.datetime.now().isoformat(timespec='seconds'))
 # Family edition: no runtime capabilities, per-device storage, sync by text
-public = html.replace('<div class="app" id="app"></div>', '<script>window.GD_PUBLIC=true;</script>\n<div class="app" id="app"></div>', 1).replace("<title>Gonzalo's Days</title>", '<title>Los días de Gonzalo</title>', 1)
+seed = (root / 'seed.json')
+seed_tag = ('<script>window.GD_SEED=' + seed.read_text().strip() + ';</script>\n') if seed.exists() else ''
+public = html.replace('<div class="app" id="app"></div>', '<script>window.GD_PUBLIC=true;</script>\n' + seed_tag + '<div class="app" id="app"></div>', 1).replace("<title>Gonzalo's Days</title>", '<title>Los días de Gonzalo</title>', 1)
 (root / 'index-public.html').write_text(public)
 print('index-public.html', len(public.encode()), 'bytes')
