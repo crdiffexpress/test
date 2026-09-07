@@ -1,7 +1,13 @@
 # Gonzalo's Days
 
 A shared, bilingual (EN/ES) baby log for Gonzalo Bedoya Fuentes, born 17 August 2026 in Miami Beach.
-Single-file web app published as a Claude artifact.
+Single-file web app published as a Claude artifact:
+https://claude.ai/code/artifact/90fb26b5-11ce-4ca6-ba7d-36d1693d9578
+
+Declared capabilities: `db` (shared realtime log), `downloads` (CSV/JSON export), `sample` (ask Claude about the log).
+Because `db` is declared, the page is organization-internal: viewers must be signed in to the owner's claude.ai
+organization. To hand out a public link instead, republish with `capabilities: {}` and the app falls back to
+per-device storage plus the text share.
 
 ## What it does
 
