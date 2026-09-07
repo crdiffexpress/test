@@ -667,22 +667,22 @@ async function ask(q){
   const out = $('#askout'); if (!out) return;
   ui.askBusy = true; out.textContent = t('ask_thinking');
   const now = Date.now();
-  const evs = G.eventsBetween(now - 48 * 3600000, now);
+  const evs = G.eventsBetween(now - 24 * 3600000, now).filter(e => e.s >= now - 24 * 3600000).slice(-60);
   const log = evs.map(e => `${G.localInputValue(e.s).replace('T', ' ')}${e.e != null ? '–' + G.localInputValue(e.e).slice(11) : ''} ${evLabel(e)}${evDetail(e) ? ' ' + evDetail(e) : ''}${e.n ? ' note: ' + e.n : ''}`).join('\n');
   const days = G.ageDays(); const band = C.bandFor(days); const wake = C.wakeFor(days);
   const s1 = G.summarize(G.todayKey()), s2 = G.summarize(G.addDays(G.todayKey(), -1));
   const gl = G.growthList(); const gtxt = gl.length ? gl.slice(-3).map(m => `${m.d}: ${m.w != null ? m.w + ' kg' : ''} ${m.l != null ? m.l + ' cm' : ''} ${m.h != null ? 'head ' + m.h + ' cm' : ''}`).join('; ') : 'none logged';
-  const prompt = `You are a warm, concise assistant helping the parents of a baby boy. Answer in ${lang === 'es' ? 'Spanish' : 'English'}, in under 180 words, plain text, no markdown headers. You are not a doctor: give general, evidence-based context (AAP, CDC, WHO) and say clearly when something should go to the pediatrician. Never diagnose.
-Baby: Gonzalo, born 2026-08-17 in Miami. Age now: ${days} days (${ageString(G.todayKey(), true)}). Current local time (Miami): ${G.localInputValue(now).replace('T', ' ')}.
+  const prompt = `You are a warm, concise assistant helping the parents of a baby boy. Answer in ${lang === 'es' ? 'Spanish' : 'English'}, in under 150 words, plain text, no markdown headers. You are not a doctor: give general, evidence-based context (AAP, CDC, WHO) and say clearly when something should go to the pediatrician. Never diagnose.
+Baby: Gonzalo, born 2026-08-17 in Miami. Age now: ${days} days (${ageString(G.todayKey(), true)}). Current local time (Miami): ${G.localInputValue(Math.floor(now / 3600000) * 3600000).replace('T', ' ')} (rounded to the hour).
 Typical ranges for his age (context, not targets): sleep ${C.sleepHoursFor(days)} h/day, wake windows ${wake.min}-${wake.max} min, feeds ${C.feedsPerDayFor(days)} per day, feed interval ${C.feedIntervalFor(days).en}. Stage note: ${band.sleep.en} ${band.feed.en}
 Today so far: ${s1.feeds} feeds (breast ${Math.round(s1.breastMin)} min, bottle ${Math.round(s1.bottleMl)} ml), sleep ${Math.round(s1.sleepMin)} min in ${s1.naps} sleeps, diapers ${s1.wet} wet / ${s1.dirty} dirty. Yesterday: ${s2.feeds} feeds, sleep ${Math.round(s2.sleepMin)} min, diapers ${s2.wet} wet / ${s2.dirty} dirty.
 Growth log: ${gtxt}.
-Log of the last 48 hours (Miami time):
+Log of the last 24 hours (Miami time):
 ${log || '(no entries yet)'}
 
 Question: ${q}`;
   try {
-    const res = await G.state.sample(prompt, { onText: u => { out.textContent = u.text; }, modelTier: 'default', cache: false });
+    const res = await G.state.sample(prompt, { onText: u => { out.textContent = u.text; }, modelTier: 'quick' });
     out.textContent = res.text;
   } catch (e) {
     out.textContent = (e && e.text) ? e.text : t('ask_err');
