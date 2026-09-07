@@ -45,6 +45,10 @@ en: {
   foot_2: 'Made for Gonzalo. Built with care by his dad, with Claude.',
   ro_banner: 'You can view this log but not add to it.',
   chart_age: 'Age', chart_days: 'days', chart_months: 'months', chart_p: 'percentile',
+  log_day: 'Day', log_patterns: 'Patterns', pat_rhythm: 'Daily rhythm', pat_rhythmSub: 'when things happen · Miami time', pat_totals: 'Daily totals', pat_stretch: 'Longest stretch without a feed', pat_longest: 'longest so far', pat_side: 'Side balance', pat_night: 'night', pat_totalsOnly: 'totals only', pat_sleepHours: 'Sleep hours', pat_empty: 'Patterns appear once a few days are logged.', pat_avg: 'avg', pat_feeds: 'feeds', pat_wet: 'wet', pat_dirty: 'dirty', pat_sleep: 'sleep', pat_left: 'Left', pat_right: 'Right', pat_noSides: 'No timed breast feeds in this range yet.',
+  hero_since: 'since last feed', hero_nursing: 'nursing now', hero_next: 'next side', hero_none: 'no feed logged yet', hero_last: 'last', hero_hrs: 'h',
+  doc_title: 'For the pediatrician', doc_sub: 'Everything the visit will ask, in one copy.', doc_24h: 'Last 24 hours', doc_7d: 'Last 7 days', doc_copy: 'Copy for the appointment', doc_feeds: 'Feeds', doc_nursing: 'nursing', doc_bottle: 'bottle', doc_wet: 'Wet diapers', doc_dirty: 'Dirty diapers', doc_stretch: 'Longest stretch between feeds', doc_sides: 'Left vs right', doc_since: 'Since last feed', doc_sleep: 'Sleep', doc_day: 'Day', doc_min: 'Nursing min', doc_avg: 'avg', doc_lastFeed: 'Last feed', doc_lastWet: 'Last wet diaper', doc_lastDirty: 'Last dirty diaper', doc_growth: 'Latest measurements', doc_vax: 'Vaccines given', doc_none: 'none yet', doc_backfill: 'Sep 1–6 are daily totals carried over from the previous app.',
+  tot_backfill: 'totals from the previous app',
   months_short: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
 },
 es: {
@@ -85,6 +89,10 @@ es: {
   foot_2: 'Hecha para Gonzalo. Con cariño, su papá, con Claude.',
   ro_banner: 'Puedes ver este registro pero no añadir entradas.',
   chart_age: 'Edad', chart_days: 'días', chart_months: 'meses', chart_p: 'percentil',
+  log_day: 'Día', log_patterns: 'Patrones', pat_rhythm: 'Ritmo diario', pat_rhythmSub: 'cuándo pasan las cosas · hora de Miami', pat_totals: 'Totales diarios', pat_stretch: 'Tramo más largo sin toma', pat_longest: 'récord', pat_side: 'Equilibrio de lados', pat_night: 'noche', pat_totalsOnly: 'solo totales', pat_sleepHours: 'Horas de sueño', pat_empty: 'Los patrones aparecen cuando hay varios días registrados.', pat_avg: 'media', pat_feeds: 'tomas', pat_wet: 'pipí', pat_dirty: 'caca', pat_sleep: 'sueño', pat_left: 'Izquierdo', pat_right: 'Derecho', pat_noSides: 'Aún no hay tomas de pecho cronometradas en este rango.',
+  hero_since: 'desde la última toma', hero_nursing: 'mamando ahora', hero_next: 'siguiente lado', hero_none: 'ninguna toma registrada', hero_last: 'última', hero_hrs: 'h',
+  doc_title: 'Para el pediatra', doc_sub: 'Todo lo que preguntan en la visita, en una copia.', doc_24h: 'Últimas 24 horas', doc_7d: 'Últimos 7 días', doc_copy: 'Copiar para la cita', doc_feeds: 'Tomas', doc_nursing: 'pecho', doc_bottle: 'biberón', doc_wet: 'Pañales con pipí', doc_dirty: 'Pañales con caca', doc_stretch: 'Tramo más largo entre tomas', doc_sides: 'Izquierdo vs derecho', doc_since: 'Desde la última toma', doc_sleep: 'Sueño', doc_day: 'Día', doc_min: 'Min pecho', doc_avg: 'media', doc_lastFeed: 'Última toma', doc_lastWet: 'Último pañal con pipí', doc_lastDirty: 'Último pañal con caca', doc_growth: 'Últimas medidas', doc_vax: 'Vacunas puestas', doc_none: 'ninguna aún', doc_backfill: 'Del 1 al 6 de sept. son totales diarios traídos de la app anterior.',
+  tot_backfill: 'totales de la app anterior',
   months_short: ['ene','feb','mar','abr','may','jun','jul','ago','sept','oct','nov','dic'],
 }};
 

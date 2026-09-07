@@ -139,9 +139,9 @@ function eventsBetween(fromMs, toMs){
   const out = [];
   let k = dayKey(fromMs - 86400000 * 1.5);
   const end = dayKey(toMs);
-  for (let i = 0; i < 6; i++){
+  for (let i = 0; i < 400; i++){
     for (const e of dayEvents(k)) if (e.s <= toMs && (e.e == null ? e.s : Math.max(e.e, e.s)) >= fromMs) out.push(e);
-    if (k === end) break;
+    if (k >= end) break;
     k = addDays(k, 1);
   }
   return out.sort((a, b) => a.s - b.s);
@@ -338,7 +338,37 @@ function summarize(key, nowMs){
       if (e.sub === 'temp' && e.a != null) s.temps.push(e);
     }
   }
+  const tot = state.data.days[key] && state.data.days[key].tot;
+  if (tot && typeof tot === 'object'){
+    s.backfill = true;
+    if (tot.feeds != null) s.feeds = Math.max(s.feeds, tot.feeds);
+    if (tot.wet != null) s.wet = Math.max(s.wet, tot.wet);
+    if (tot.dirty != null) s.dirty = Math.max(s.dirty, tot.dirty);
+    s.diapers = Math.max(s.diapers, s.wet + s.dirty);
+    if (tot.nurseMin != null) s.breastMin = Math.max(s.breastMin, tot.nurseMin);
+  }
   return s;
+}
+/* last n day keys ending today, oldest first */
+function rangeKeys(n){ const out = []; const t = todayKey(); for (let i = n - 1; i >= 0; i--) out.push(addDays(t, -i)); return out; }
+/* longest completed gap between consecutive feed starts whose end falls inside the day, minutes (null if unknown) */
+function longestGap(key){
+  const start = dayStartMs(key), end = start + 86400000;
+  const feeds = eventsBetween(start - 86400000, end).filter(e => e.t === 'feed' && e.s < end);
+  let best = null;
+  for (let i = 1; i < feeds.length; i++){
+    const a = feeds[i - 1], b = feeds[i];
+    if (b.s < start) continue;
+    const from = a.e != null && a.e > a.s ? a.e : a.s;
+    const gap = (b.s - from) / 60000;
+    if (best == null || gap > best) best = gap;
+  }
+  return best;
+}
+function sideBalance(keys){
+  let L = 0, R = 0;
+  for (const k of keys) for (const e of dayEvents(k)) if (e.t === 'feed' && (e.sub === 'L' || e.sub === 'R') && e.e != null){ const m = (e.e - e.s) / 60000; if (e.sub === 'L') L += m; else R += m; }
+  return { L, R };
 }
 
 /* ---------------- export ---------------- */
@@ -348,6 +378,9 @@ function csvExport(){
     const mins = e.e != null ? Math.round((e.e - e.s) / 60000) : '';
     rows.push([dayKey(e.s), localInputValue(e.s).replace('T', ' '), e.e != null ? localInputValue(e.e).replace('T', ' ') : '', e.t, e.sub || '', e.a != null ? e.a : '', e.u || '', mins, e.n || '', e.by || '']);
   }
+  rows.push([]);
+  rows.push(['backfill_date', 'feeds', 'wet', 'dirty', 'nursing_min', 'source']);
+  for (const k of Object.keys(state.data.days).sort()){ const tt = state.data.days[k].tot; if (tt) rows.push([k, tt.feeds != null ? tt.feeds : '', tt.wet != null ? tt.wet : '', tt.dirty != null ? tt.dirty : '', tt.nurseMin != null ? tt.nurseMin : '', tt.src || '']); }
   rows.push([]);
   rows.push(['growth_date', 'weight_kg', 'length_cm', 'head_cm', 'by']);
   for (const m of growthList()) rows.push([m.d, m.w != null ? m.w : '', m.l != null ? m.l : '', m.h != null ? m.h : '', m.by || '']);
@@ -374,6 +407,6 @@ return {
   fmtTime, fmtDate, fmtDateLong, fmtDateShort, fmtDur, fmtClock, localInputValue, msFromInput,
   dayEvents, eventsBetween, allEvents, runningEvents, lastOf, putEvent, deleteEvent, moveEvent, putGrowth, putHealth, putProfile,
   boot, mergeLocalIntoShared, lsGet, LS_DATA,
-  lmsAt, zOf, xOfZ, Phi, zOfP, percentile, fmtPct, growthList, summarize, csvExport, saveFile,
+  lmsAt, zOf, xOfZ, Phi, zOfP, percentile, fmtPct, growthList, summarize, rangeKeys, longestGap, sideBalance, csvExport, saveFile,
 };
 })();

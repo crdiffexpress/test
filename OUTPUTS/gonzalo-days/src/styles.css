@@ -429,3 +429,64 @@ footer{padding:18px 0 10px;color:var(--ink-3);font-size:12.5px;display:grid;gap:
   .sheet{border-radius:20px}
 }
 @media print{nav.tabs,.actions,.topctl{display:none!important}body{background:#fff;color:#000}}
+
+/* ---------- hero (since last feed) ---------- */
+.hero{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:16px 18px 14px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--feed)}
+.hero .num{font-family:"DM Mono",ui-monospace,Menlo,monospace;font-size:54px;font-weight:500;letter-spacing:-.03em;line-height:1;display:flex;align-items:baseline;gap:8px}
+.hero .num small{font-family:Figtree,sans-serif;font-size:14px;font-weight:600;color:var(--ink-3);letter-spacing:.04em}
+.hero .sub{margin-top:6px;font-size:15px;color:var(--ink-2)}
+.hero .sub b{font-weight:700;color:var(--ink)}
+.hero .sub b.L{color:var(--feed-ink)}
+.hero .sub b.R{color:var(--sleep-ink)}
+.hero .detail{margin-top:4px;font-size:12.5px;color:var(--ink-3)}
+.hero.nursing::before{background:var(--feed)}
+.hero.nursing .num{color:var(--feed-ink)}
+.now.two{grid-template-columns:1fr 1fr}
+
+/* ---------- patterns ---------- */
+.patseg{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.pat svg{width:100%;height:auto;display:block;overflow:visible}
+.pat text{font-family:"DM Mono",ui-monospace,monospace;font-size:10.5px;fill:var(--ink-3)}
+.pat .rowlab{fill:var(--ink-2)}
+.pat .night{fill:var(--card-3)}
+.pat .rowline{stroke:var(--rule-2);stroke-width:1}
+.pat .axis line{stroke:var(--rule);stroke-width:1}
+.pat .grid line{stroke:var(--rule-2);stroke-width:1}
+.pat .sl{fill:var(--sleep);opacity:.28}
+.pat .fd{fill:var(--feed)}
+.pat .wt{fill:var(--diaper)}
+.pat .dt{fill:var(--dirty)}
+.pat .cr{fill:var(--care)}
+.pat .bar-f{fill:var(--feed)}
+.pat .bar-w{fill:var(--diaper)}
+.pat .bar-d{fill:var(--dirty)}
+.pat .bar-s{fill:var(--sleep)}
+.pat .line{fill:none;stroke:var(--sleep);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.pat .pt{fill:var(--sleep);stroke:var(--card);stroke-width:2}
+.pat .hit{fill:transparent;cursor:default}
+.pat .vlab{fill:var(--ink);font-weight:500}
+:root{--dirty:#8B5E34;--dirty-soft:#F1E6DC}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--dirty:#B08258;--dirty-soft:#33261A}}
+:root[data-theme="dark"]{--dirty:#B08258;--dirty-soft:#33261A}
+.legend .dirty i{background:var(--dirty)}
+.legend .night i{background:var(--card-3);border:1px solid var(--rule)}
+.legend .wet i{background:var(--diaper)}
+.sidebar{display:flex;height:22px;border-radius:11px;overflow:hidden;background:var(--card-3);margin:10px 0 6px}
+.sidebar .L{background:var(--feed)}
+.sidebar .R{background:var(--feed-ink)}
+.sidelab{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-2)}
+.sidelab b{color:var(--ink)}
+
+/* ---------- doctor ---------- */
+.doc dl{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:0;margin:0;font-size:14px}
+.doc dt{color:var(--ink-2);padding:8px 0;border-bottom:1px solid var(--rule-2)}
+.doc dd{margin:0;padding:8px 0 8px 12px;border-bottom:1px solid var(--rule-2);text-align:right;font-family:"DM Mono",ui-monospace,monospace;font-size:12.5px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums;color:var(--ink)}
+.doc dt:last-of-type,.doc dd:last-of-type{border-bottom:0}
+.doc table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+.doc th{text-align:right;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:6px 6px;border-bottom:1px solid var(--rule)}
+.doc th:first-child,.doc td:first-child{text-align:left}
+.doc td{padding:7px 6px;border-bottom:1px solid var(--rule-2);text-align:right;font-family:"DM Mono",ui-monospace,monospace;font-size:12.5px;font-variant-numeric:tabular-nums}
+.doc td:first-child{font-family:Figtree,sans-serif;font-size:13.5px}
+.doc tr.avg td{border-top:1px solid var(--rule);border-bottom:0;color:var(--feed-ink);font-weight:700}
+.doc tr.today td{color:var(--ink-3)}

@@ -16,11 +16,14 @@ per-device storage plus the text share.
   nap-window estimate from age-based wake windows, last diaper. Today totals against typical ranges for his age,
   a 24-hour ribbon, and the entry list (tap to edit).
 - **Log**: any day since birth, share a plain-text summary (copy / WhatsApp / native share), export CSV, backup JSON.
+  A **Patterns** switch (7d / 14d / 30d) shows the daily rhythm dot plot with night shading, daily totals,
+  sleep hours, the longest stretch without a feed, and left/right side balance.
 - **Growth**: weight, length, head circumference on WHO boys 0-24 month percentile curves (3/15/50/85/97),
   percentile computed from the official LMS tables (daily resolution, days 0-730). Chart and table views.
 - **Guide**: age-tuned stage guide (sleep, feeding, diapers, development, red flags, tips, what's next) and the
   CDC "Learn the Signs. Act Early." milestone checklist for the next checkpoint, shared tick state.
-- **Health**: AAP 2026 vaccine schedule with dates computed from his birthday (CDC shared-decision tier marked),
+- **Health**: a **For the pediatrician** card (last feed/wet/dirty, last 24 h, last 7 days with averages, one-tap
+  copy for the appointment) followed by the AAP 2026 vaccine schedule with dates computed from his birthday (CDC shared-decision tier marked),
   Bright Futures well-visit list, pediatrician card with tap-to-call, temperature alert under 3 months,
   Florida SHOTS / DH 680 note.
 - **Ask**: when the `sample` capability is available, sends the last 48 h of the log plus his age to Claude.
@@ -28,6 +31,9 @@ per-device storage plus the text share.
 All times are shown in Miami time (America/New_York) wherever the page is opened.
 
 ## Data and sharing
+
+- Day documents may carry a `tot` field (`feeds`, `wet`, `dirty`, `nurseMin`, `src`) with daily totals carried over
+  from the previous app (1 to 6 Sep 2026). Summaries use it when it exceeds what the events show.
 
 - With the `db` capability the log is one shared realtime store: `days/YYYY-MM-DD` documents holding an
   `ev` map of events (tombstone deletes), `growth/main`, `health/main`, `profile/main`. Writes are field-level

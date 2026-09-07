@@ -435,6 +435,67 @@ footer{padding:18px 0 10px;color:var(--ink-3);font-size:12.5px;display:grid;gap:
 }
 @media print{nav.tabs,.actions,.topctl{display:none!important}body{background:#fff;color:#000}}
 
+/* ---------- hero (since last feed) ---------- */
+.hero{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:16px 18px 14px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--feed)}
+.hero .num{font-family:"DM Mono",ui-monospace,Menlo,monospace;font-size:54px;font-weight:500;letter-spacing:-.03em;line-height:1;display:flex;align-items:baseline;gap:8px}
+.hero .num small{font-family:Figtree,sans-serif;font-size:14px;font-weight:600;color:var(--ink-3);letter-spacing:.04em}
+.hero .sub{margin-top:6px;font-size:15px;color:var(--ink-2)}
+.hero .sub b{font-weight:700;color:var(--ink)}
+.hero .sub b.L{color:var(--feed-ink)}
+.hero .sub b.R{color:var(--sleep-ink)}
+.hero .detail{margin-top:4px;font-size:12.5px;color:var(--ink-3)}
+.hero.nursing::before{background:var(--feed)}
+.hero.nursing .num{color:var(--feed-ink)}
+.now.two{grid-template-columns:1fr 1fr}
+
+/* ---------- patterns ---------- */
+.patseg{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.pat svg{width:100%;height:auto;display:block;overflow:visible}
+.pat text{font-family:"DM Mono",ui-monospace,monospace;font-size:10.5px;fill:var(--ink-3)}
+.pat .rowlab{fill:var(--ink-2)}
+.pat .night{fill:var(--card-3)}
+.pat .rowline{stroke:var(--rule-2);stroke-width:1}
+.pat .axis line{stroke:var(--rule);stroke-width:1}
+.pat .grid line{stroke:var(--rule-2);stroke-width:1}
+.pat .sl{fill:var(--sleep);opacity:.28}
+.pat .fd{fill:var(--feed)}
+.pat .wt{fill:var(--diaper)}
+.pat .dt{fill:var(--dirty)}
+.pat .cr{fill:var(--care)}
+.pat .bar-f{fill:var(--feed)}
+.pat .bar-w{fill:var(--diaper)}
+.pat .bar-d{fill:var(--dirty)}
+.pat .bar-s{fill:var(--sleep)}
+.pat .line{fill:none;stroke:var(--sleep);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.pat .pt{fill:var(--sleep);stroke:var(--card);stroke-width:2}
+.pat .hit{fill:transparent;cursor:default}
+.pat .vlab{fill:var(--ink);font-weight:500}
+:root{--dirty:#8B5E34;--dirty-soft:#F1E6DC}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--dirty:#B08258;--dirty-soft:#33261A}}
+:root[data-theme="dark"]{--dirty:#B08258;--dirty-soft:#33261A}
+.legend .dirty i{background:var(--dirty)}
+.legend .night i{background:var(--card-3);border:1px solid var(--rule)}
+.legend .wet i{background:var(--diaper)}
+.sidebar{display:flex;height:22px;border-radius:11px;overflow:hidden;background:var(--card-3);margin:10px 0 6px}
+.sidebar .L{background:var(--feed)}
+.sidebar .R{background:var(--feed-ink)}
+.sidelab{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-2)}
+.sidelab b{color:var(--ink)}
+
+/* ---------- doctor ---------- */
+.doc dl{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:0;margin:0;font-size:14px}
+.doc dt{color:var(--ink-2);padding:8px 0;border-bottom:1px solid var(--rule-2)}
+.doc dd{margin:0;padding:8px 0 8px 12px;border-bottom:1px solid var(--rule-2);text-align:right;font-family:"DM Mono",ui-monospace,monospace;font-size:12.5px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums;color:var(--ink)}
+.doc dt:last-of-type,.doc dd:last-of-type{border-bottom:0}
+.doc table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+.doc th{text-align:right;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:6px 6px;border-bottom:1px solid var(--rule)}
+.doc th:first-child,.doc td:first-child{text-align:left}
+.doc td{padding:7px 6px;border-bottom:1px solid var(--rule-2);text-align:right;font-family:"DM Mono",ui-monospace,monospace;font-size:12.5px;font-variant-numeric:tabular-nums}
+.doc td:first-child{font-family:Figtree,sans-serif;font-size:13.5px}
+.doc tr.avg td{border-top:1px solid var(--rule);border-bottom:0;color:var(--feed-ink);font-weight:700}
+.doc tr.today td{color:var(--ink-3)}
+
 </style>
 <div class="app" id="app"></div>
 <script>
@@ -489,6 +550,10 @@ en: {
   foot_2: 'Made for Gonzalo. Built with care by his dad, with Claude.',
   ro_banner: 'You can view this log but not add to it.',
   chart_age: 'Age', chart_days: 'days', chart_months: 'months', chart_p: 'percentile',
+  log_day: 'Day', log_patterns: 'Patterns', pat_rhythm: 'Daily rhythm', pat_rhythmSub: 'when things happen · Miami time', pat_totals: 'Daily totals', pat_stretch: 'Longest stretch without a feed', pat_longest: 'longest so far', pat_side: 'Side balance', pat_night: 'night', pat_totalsOnly: 'totals only', pat_sleepHours: 'Sleep hours', pat_empty: 'Patterns appear once a few days are logged.', pat_avg: 'avg', pat_feeds: 'feeds', pat_wet: 'wet', pat_dirty: 'dirty', pat_sleep: 'sleep', pat_left: 'Left', pat_right: 'Right', pat_noSides: 'No timed breast feeds in this range yet.',
+  hero_since: 'since last feed', hero_nursing: 'nursing now', hero_next: 'next side', hero_none: 'no feed logged yet', hero_last: 'last', hero_hrs: 'h',
+  doc_title: 'For the pediatrician', doc_sub: 'Everything the visit will ask, in one copy.', doc_24h: 'Last 24 hours', doc_7d: 'Last 7 days', doc_copy: 'Copy for the appointment', doc_feeds: 'Feeds', doc_nursing: 'nursing', doc_bottle: 'bottle', doc_wet: 'Wet diapers', doc_dirty: 'Dirty diapers', doc_stretch: 'Longest stretch between feeds', doc_sides: 'Left vs right', doc_since: 'Since last feed', doc_sleep: 'Sleep', doc_day: 'Day', doc_min: 'Nursing min', doc_avg: 'avg', doc_lastFeed: 'Last feed', doc_lastWet: 'Last wet diaper', doc_lastDirty: 'Last dirty diaper', doc_growth: 'Latest measurements', doc_vax: 'Vaccines given', doc_none: 'none yet', doc_backfill: 'Sep 1–6 are daily totals carried over from the previous app.',
+  tot_backfill: 'totals from the previous app',
   months_short: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
 },
 es: {
@@ -529,6 +594,10 @@ es: {
   foot_2: 'Hecha para Gonzalo. Con cariño, su papá, con Claude.',
   ro_banner: 'Puedes ver este registro pero no añadir entradas.',
   chart_age: 'Edad', chart_days: 'días', chart_months: 'meses', chart_p: 'percentil',
+  log_day: 'Día', log_patterns: 'Patrones', pat_rhythm: 'Ritmo diario', pat_rhythmSub: 'cuándo pasan las cosas · hora de Miami', pat_totals: 'Totales diarios', pat_stretch: 'Tramo más largo sin toma', pat_longest: 'récord', pat_side: 'Equilibrio de lados', pat_night: 'noche', pat_totalsOnly: 'solo totales', pat_sleepHours: 'Horas de sueño', pat_empty: 'Los patrones aparecen cuando hay varios días registrados.', pat_avg: 'media', pat_feeds: 'tomas', pat_wet: 'pipí', pat_dirty: 'caca', pat_sleep: 'sueño', pat_left: 'Izquierdo', pat_right: 'Derecho', pat_noSides: 'Aún no hay tomas de pecho cronometradas en este rango.',
+  hero_since: 'desde la última toma', hero_nursing: 'mamando ahora', hero_next: 'siguiente lado', hero_none: 'ninguna toma registrada', hero_last: 'última', hero_hrs: 'h',
+  doc_title: 'Para el pediatra', doc_sub: 'Todo lo que preguntan en la visita, en una copia.', doc_24h: 'Últimas 24 horas', doc_7d: 'Últimos 7 días', doc_copy: 'Copiar para la cita', doc_feeds: 'Tomas', doc_nursing: 'pecho', doc_bottle: 'biberón', doc_wet: 'Pañales con pipí', doc_dirty: 'Pañales con caca', doc_stretch: 'Tramo más largo entre tomas', doc_sides: 'Izquierdo vs derecho', doc_since: 'Desde la última toma', doc_sleep: 'Sueño', doc_day: 'Día', doc_min: 'Min pecho', doc_avg: 'media', doc_lastFeed: 'Última toma', doc_lastWet: 'Último pañal con pipí', doc_lastDirty: 'Último pañal con caca', doc_growth: 'Últimas medidas', doc_vax: 'Vacunas puestas', doc_none: 'ninguna aún', doc_backfill: 'Del 1 al 6 de sept. son totales diarios traídos de la app anterior.',
+  tot_backfill: 'totales de la app anterior',
   months_short: ['ene','feb','mar','abr','may','jun','jul','ago','sept','oct','nov','dic'],
 }};
 
@@ -906,9 +975,9 @@ function eventsBetween(fromMs, toMs){
   const out = [];
   let k = dayKey(fromMs - 86400000 * 1.5);
   const end = dayKey(toMs);
-  for (let i = 0; i < 6; i++){
+  for (let i = 0; i < 400; i++){
     for (const e of dayEvents(k)) if (e.s <= toMs && (e.e == null ? e.s : Math.max(e.e, e.s)) >= fromMs) out.push(e);
-    if (k === end) break;
+    if (k >= end) break;
     k = addDays(k, 1);
   }
   return out.sort((a, b) => a.s - b.s);
@@ -1105,7 +1174,37 @@ function summarize(key, nowMs){
       if (e.sub === 'temp' && e.a != null) s.temps.push(e);
     }
   }
+  const tot = state.data.days[key] && state.data.days[key].tot;
+  if (tot && typeof tot === 'object'){
+    s.backfill = true;
+    if (tot.feeds != null) s.feeds = Math.max(s.feeds, tot.feeds);
+    if (tot.wet != null) s.wet = Math.max(s.wet, tot.wet);
+    if (tot.dirty != null) s.dirty = Math.max(s.dirty, tot.dirty);
+    s.diapers = Math.max(s.diapers, s.wet + s.dirty);
+    if (tot.nurseMin != null) s.breastMin = Math.max(s.breastMin, tot.nurseMin);
+  }
   return s;
+}
+/* last n day keys ending today, oldest first */
+function rangeKeys(n){ const out = []; const t = todayKey(); for (let i = n - 1; i >= 0; i--) out.push(addDays(t, -i)); return out; }
+/* longest completed gap between consecutive feed starts whose end falls inside the day, minutes (null if unknown) */
+function longestGap(key){
+  const start = dayStartMs(key), end = start + 86400000;
+  const feeds = eventsBetween(start - 86400000, end).filter(e => e.t === 'feed' && e.s < end);
+  let best = null;
+  for (let i = 1; i < feeds.length; i++){
+    const a = feeds[i - 1], b = feeds[i];
+    if (b.s < start) continue;
+    const from = a.e != null && a.e > a.s ? a.e : a.s;
+    const gap = (b.s - from) / 60000;
+    if (best == null || gap > best) best = gap;
+  }
+  return best;
+}
+function sideBalance(keys){
+  let L = 0, R = 0;
+  for (const k of keys) for (const e of dayEvents(k)) if (e.t === 'feed' && (e.sub === 'L' || e.sub === 'R') && e.e != null){ const m = (e.e - e.s) / 60000; if (e.sub === 'L') L += m; else R += m; }
+  return { L, R };
 }
 
 /* ---------------- export ---------------- */
@@ -1115,6 +1214,9 @@ function csvExport(){
     const mins = e.e != null ? Math.round((e.e - e.s) / 60000) : '';
     rows.push([dayKey(e.s), localInputValue(e.s).replace('T', ' '), e.e != null ? localInputValue(e.e).replace('T', ' ') : '', e.t, e.sub || '', e.a != null ? e.a : '', e.u || '', mins, e.n || '', e.by || '']);
   }
+  rows.push([]);
+  rows.push(['backfill_date', 'feeds', 'wet', 'dirty', 'nursing_min', 'source']);
+  for (const k of Object.keys(state.data.days).sort()){ const tt = state.data.days[k].tot; if (tt) rows.push([k, tt.feeds != null ? tt.feeds : '', tt.wet != null ? tt.wet : '', tt.dirty != null ? tt.dirty : '', tt.nurseMin != null ? tt.nurseMin : '', tt.src || '']); }
   rows.push([]);
   rows.push(['growth_date', 'weight_kg', 'length_cm', 'head_cm', 'by']);
   for (const m of growthList()) rows.push([m.d, m.w != null ? m.w : '', m.l != null ? m.l : '', m.h != null ? m.h : '', m.by || '']);
@@ -1141,7 +1243,7 @@ return {
   fmtTime, fmtDate, fmtDateLong, fmtDateShort, fmtDur, fmtClock, localInputValue, msFromInput,
   dayEvents, eventsBetween, allEvents, runningEvents, lastOf, putEvent, deleteEvent, moveEvent, putGrowth, putHealth, putProfile,
   boot, mergeLocalIntoShared, lsGet, LS_DATA,
-  lmsAt, zOf, xOfZ, Phi, zOfP, percentile, fmtPct, growthList, summarize, csvExport, saveFile,
+  lmsAt, zOf, xOfZ, Phi, zOfP, percentile, fmtPct, growthList, summarize, rangeKeys, longestGap, sideBalance, csvExport, saveFile,
 };
 })();
 
@@ -1165,7 +1267,7 @@ function t(k, p){
 const L = obj => (obj && (obj[lang] != null ? obj[lang] : obj.en)) || '';
 const pair = s => { const a = s.split('|'); return lang === 'es' && a[1] ? a[1] : a[0]; };
 
-const ui = { tab: 'today', logDay: G.todayKey(), gMeasure: 'w', gRange: 3, gTable: false, guideBand: null, sheet: null, toastTimer: null, askBusy: false };
+const ui = { tab: 'today', logDay: G.todayKey(), logView: 'day', patRange: 7, gMeasure: 'w', gRange: 3, gTable: false, guideBand: null, sheet: null, toastTimer: null, askBusy: false };
 
 /* ---------------- icons ---------------- */
 const I = {
@@ -1290,7 +1392,8 @@ function renderToday(){
   const p = $('#p-today');
   const key = G.todayKey();
   p.innerHTML = `
-    <section class="now" id="nowstrip">${nowTilesHTML()}</section>
+    <section class="hero" id="hero">${heroHTML()}</section>
+    <section class="now two" id="nowstrip">${nowTilesHTML()}</section>
     <section class="actions" id="actions">${actionsHTML()}</section>
     <section class="totals" id="totals">${totalsHTML(key)}</section>
     <section class="card">
@@ -1307,6 +1410,26 @@ function renderToday(){
   renderEntries($('#entries-today'), key);
   const s = G.summarize(key);
   $('#vitd-line').innerHTML = `<span class="pill ${s.vitd ? 'good' : ''}">${esc(t(s.vitd ? 'vitd_done' : 'vitd_not'))}</span>`;
+}
+function fmtHM(mins){ mins = Math.max(0, Math.floor(mins)); return Math.floor(mins / 60) + ':' + G.pad(mins % 60); }
+function heroHTML(){
+  const now = Date.now();
+  const feeds = G.eventsBetween(now - 3 * 86400000, now).filter(e => e.t === 'feed');
+  const lastFeed = feeds.length ? feeds[feeds.length - 1] : null;
+  const lastBreast = feeds.filter(e => e.sub === 'L' || e.sub === 'R').pop();
+  const nextSide = lastBreast ? (lastBreast.sub === 'L' ? 'R' : 'L') : 'L';
+  const nextHtml = `${esc(t('hero_next'))} <b class="${nextSide}">${esc(t('side_' + nextSide))}</b>`;
+  if (lastFeed && lastFeed.e == null && (lastFeed.sub === 'L' || lastFeed.sub === 'R')){
+    $('#hero') && $('#hero').classList.add('nursing');
+    return `<div class="num"><span data-elapsed="${lastFeed.s}">${G.fmtClock(now - lastFeed.s)}</span></div>
+      <div class="sub">${esc(t('hero_nursing'))} · <b class="${lastFeed.sub}">${esc(t('side_' + lastFeed.sub))}</b></div>
+      <div class="detail">${esc(t('now_since', { t: fmtT(lastFeed.s) }))}${lastFeed.by ? ' · ' + esc(lastFeed.by) : ''}</div>`;
+  }
+  if (!lastFeed) return `<div class="num"><span>—</span><small>${esc(t('hero_hrs'))}</small></div><div class="sub">${esc(t('hero_none'))} · ${nextHtml}</div><div class="detail">${esc(t('typical_feed', { x: L(C.feedIntervalFor(G.ageDays())) }))}</div>`;
+  const ref = lastFeed.e != null ? lastFeed.e : lastFeed.s;
+  return `<div class="num"><span data-hm="${ref}">${fmtHM((now - ref) / 60000)}</span><small>${esc(t('hero_hrs'))}</small></div>
+    <div class="sub">${esc(t('hero_since'))} · ${nextHtml}</div>
+    <div class="detail">${esc(t('hero_last'))} ${esc(fmtT(lastFeed.s))} · ${esc(evLabel(lastFeed).replace(t('breast') + ' · ', ''))}${evDetail(lastFeed) ? ' · ' + esc(evDetail(lastFeed)) : ''}${lastFeed.by ? ' · ' + esc(lastFeed.by) : ''} · ${esc(t('typical_feed', { x: L(C.feedIntervalFor(G.ageDays())) }))}</div>`;
 }
 function nowTilesHTML(){
   const now = Date.now();
@@ -1348,7 +1471,6 @@ function nowTilesHTML(){
     diaD = fmtT(lastDiaper.s) + ' · ' + t('d_' + (lastDiaper.sub || 'wet'));
   }
   return `
-    <div class="tile feed"><div class="k">${esc(t('now_lastFeed'))}</div><div class="v">${feedV}</div><div class="d">${esc(feedD)}</div><div class="d hint">${esc(feedHint)}</div></div>
     <div class="tile sleep ${live}"><div class="k">${esc(sleepK)}</div><div class="v">${sleepV}</div><div class="d hint">${esc(sleepD)}</div></div>
     <div class="tile diaper"><div class="k">${esc(t('now_lastDiaper'))}</div><div class="v">${diaV}</div><div class="d">${esc(diaD)}</div></div>`;
 }
@@ -1470,7 +1592,10 @@ function renderLog(){
   const key = ui.logDay, today = G.todayKey();
   const nDays = Object.keys(G.state.data.days).filter(k => G.dayEvents(k).length).length;
   const title = key === today ? t('today') : key === G.addDays(today, -1) ? t('yesterday') : G.fmtDate(key, lang);
+  const viewSeg = `<div class="patseg"><div class="seg">${[['day', t('log_day')], ['patterns', t('log_patterns')]].map(o => `<button data-act="logview" data-v="${o[0]}" aria-pressed="${ui.logView === o[0]}">${esc(o[1])}</button>`).join('')}</div>${ui.logView === 'patterns' ? `<div class="seg">${[7, 14, 30].map(n => `<button data-act="patrange" data-v="${n}" aria-pressed="${ui.patRange === n}">${n}d</button>`).join('')}</div>` : ''}</div>`;
+  if (ui.logView === 'patterns'){ p.innerHTML = `<section class="card flat" style="padding:10px 12px">${viewSeg}</section>` + patternsHTML(ui.patRange, (p.clientWidth || 640) - (window.innerWidth <= 640 ? 28 : 32)); wirePatterns(p); return; }
   p.innerHTML = `
+    <section class="card flat" style="padding:10px 12px">${viewSeg}</section>
     <section class="card">
       <div class="daynav">
         <button class="btn sm" data-act="logday" data-v="-1" aria-label="${esc(t('back'))}">${I.chevL}</button>
@@ -1493,7 +1618,7 @@ function renderLog(){
       <div class="ribbon" id="ribbon-log"></div>
       <div class="legend"><span class="sleep"><i></i>${esc(t('leg_sleep'))}</span><span class="feed"><i></i>${esc(t('leg_feed'))}</span><span class="diaper"><i></i>${esc(t('leg_diaper'))}</span><span class="care"><i></i>${esc(t('leg_care'))}</span></div>
     </section>
-    <section class="card"><div class="cardhead"><h2>${esc(t('entries'))}</h2></div><div class="entries" id="entries-log"></div></section>`;
+    <section class="card"><div class="cardhead"><h2>${esc(t('entries'))}</h2>${G.summarize(key).backfill ? `<span class="pill">${esc(t('tot_backfill'))}</span>` : ''}</div><div class="entries" id="entries-log"></div></section>`;
   renderRibbon($('#ribbon-log'), key);
   renderEntries($('#entries-log'), key);
   $('#logdate').addEventListener('change', ev => { if (ev.target.value){ ui.logDay = ev.target.value; renderLog(); } });
@@ -1756,6 +1881,7 @@ function renderHealth(){
   };
   p.innerHTML = `
     ${alert}
+    ${doctorHTML()}
     <section class="card">
       <div class="cardhead"><h2>${esc(t('h_ped'))}</h2><button class="btn sm" data-act="ped">${esc(t('edit'))}</button></div>
       ${ped.name || ped.phone ? `<div class="spread"><div><b>${esc(ped.name || '')}</b><div class="small muted">${esc(ped.notes || '')}</div></div>${ped.phone ? `<a class="btn" href="tel:${esc(ped.phone.replace(/[^+\d]/g, ''))}">${I.phone}${esc(ped.phone)}</a>` : ''}</div>` : `<p class="small muted">${esc(t('h_pedEmpty'))}</p>`}
@@ -1814,6 +1940,217 @@ Question: ${q}`;
     console.warn(e);
   }
   ui.askBusy = false;
+}
+
+/* ---------------- PATTERNS ---------------- */
+function dayLabel(key){ const k = G.keyParts(key); const wd = G.fmtDate(key, lang, { weekday: 'short', day: undefined, month: undefined }); return wd.replace('.', '') + ' ' + k.d; }
+function patternsHTML(n, W){
+  const keys = G.rangeKeys(n);
+  const today = G.todayKey();
+  W = Math.max(300, Math.round(W || 640));
+  const _W = W, rowH = n <= 7 ? 26 : n <= 14 ? 18 : 12, padL = 52, padR = 10, padT = 8, padB = 22;
+  const H = padT + rowH * keys.length + padB;
+  const x = h => padL + h / 24 * (W - padL - padR);
+  let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(t('pat_rhythm'))}">`;
+  keys.forEach((k, i) => {
+    const y = padT + i * rowH;
+    svg += `<rect class="night" x="${x(0)}" y="${y + 1}" width="${x(7) - x(0)}" height="${rowH - 2}"/><rect class="night" x="${x(19)}" y="${y + 1}" width="${x(24) - x(19)}" height="${rowH - 2}"/>`;
+    svg += `<line class="rowline" x1="${padL}" x2="${W - padR}" y1="${y + rowH}" y2="${y + rowH}"/>`;
+    svg += `<text class="rowlab" x="${padL - 8}" y="${y + rowH / 2 + 3.5}" text-anchor="end">${esc(dayLabel(k))}</text>`;
+    const start = G.dayStartMs(k), end = start + 86400000;
+    const evs = G.eventsBetween(start, end);
+    const hx = ms => x(G.clamp((ms - start) / 3600000, 0, 24));
+    for (const e of evs) if (e.t === 'sleep'){ const a = Math.max(e.s, start), b = Math.min(e.e == null ? Date.now() : e.e, end); if (b > a) svg += `<rect class="sl" x="${hx(a).toFixed(1)}" y="${y + 3}" width="${Math.max(2, hx(b) - hx(a)).toFixed(1)}" height="${rowH - 6}" rx="2"/>`; }
+    const r = rowH >= 18 ? 3.5 : 2.5;
+    for (const e of evs){
+      if (e.s < start || e.s >= end) continue;
+      const cx = hx(e.s), cy = y + rowH / 2;
+      const tip = `${fmtT(e.s)} · ${evLabel(e)}${evDetail(e) ? ' · ' + evDetail(e) : ''}`;
+      if (e.t === 'feed') svg += `<circle class="fd" cx="${cx.toFixed(1)}" cy="${cy}" r="${r}" data-tip="${esc(tip)}"/>`;
+      else if (e.t === 'diaper'){
+        if (e.sub === 'wet' || e.sub === 'both') svg += `<circle class="wt" cx="${cx.toFixed(1)}" cy="${cy - (e.sub === 'both' ? r : 0)}" r="${r}" data-tip="${esc(tip)}"/>`;
+        if (e.sub === 'dirty' || e.sub === 'both') svg += `<rect class="dt" x="${(cx - r).toFixed(1)}" y="${cy - r + (e.sub === 'both' ? r : 0)}" width="${r * 2}" height="${r * 2}" rx="1" data-tip="${esc(tip)}"/>`;
+      } else if (e.t === 'pump' || e.t === 'care') svg += `<rect class="cr" x="${(cx - 1).toFixed(1)}" y="${cy - r}" width="2" height="${r * 2}" data-tip="${esc(tip)}"/>`;
+    }
+    const s = G.summarize(k);
+    if (s.backfill && !evs.some(e => e.t === 'feed' || e.t === 'diaper')) svg += `<text x="${x(12)}" y="${y + rowH / 2 + 3.5}" text-anchor="middle" style="opacity:.8">${esc(t('pat_totalsOnly'))} · ${s.feeds} ${esc(t('pat_feeds'))} · ${s.wet} ${esc(t('pat_wet'))} · ${s.dirty} ${esc(t('pat_dirty'))}</text>`;
+  });
+  svg += '<g class="axis">';
+  for (let h = 0; h <= 24; h += 6){ const lab = lang === 'es' ? G.pad(h % 24) + ':00' : (h % 24 === 0 ? '12a' : h === 12 ? '12p' : h < 12 ? h + 'a' : (h - 12) + 'p'); svg += `<line x1="${x(h)}" x2="${x(h)}" y1="${H - padB + 2}" y2="${H - padB + 6}"/><text x="${x(h)}" y="${H - padB + 17}" text-anchor="${h === 0 ? 'start' : h === 24 ? 'end' : 'middle'}">${lab}</text>`; }
+  svg += '</g></svg>';
+  const rhythm = `<section class="card pat"><div class="cardhead"><h2>${esc(t('pat_rhythm'))}</h2><span class="sub">${esc(t('pat_rhythmSub'))}</span></div><div class="chart" id="pat-rhythm">${svg}</div>
+    <div class="legend"><span class="feed"><i></i>${esc(t('pat_feeds'))}</span><span class="wet"><i></i>${esc(t('pat_wet'))}</span><span class="dirty"><i style="border-radius:1px"></i>${esc(t('pat_dirty'))}</span><span class="sleep"><i style="opacity:.4"></i>${esc(t('pat_sleep'))}</span><span class="night"><i></i>${esc(t('pat_night'))}</span></div></section>`;
+
+  // daily totals (grouped bars)
+  const sums = keys.map(k => Object.assign({ k }, G.summarize(k)));
+  const hasData = sums.some(s => s.feeds || s.diapers || s.sleepMin);
+  const BW = W, BH = 190, bPadL = 30, bPadR = 10, bPadT = 18, bPadB = 24;
+  const maxV = Math.max(4, ...sums.map(s => Math.max(s.feeds, s.wet, s.dirty)));
+  const slot = (BW - bPadL - bPadR) / keys.length;
+  const bw = Math.min(24, Math.max(4, (slot - 6) / 3 - 2));
+  const by = v => bPadT + (1 - v / maxV) * (BH - bPadT - bPadB);
+  let bars = `<svg viewBox="0 0 ${BW} ${BH}" role="img" aria-label="${esc(t('pat_totals'))}"><g class="grid">`;
+  const step = maxV <= 8 ? 2 : maxV <= 20 ? 5 : 10;
+  for (let v = 0; v <= maxV; v += step) bars += `<line x1="${bPadL}" x2="${BW - bPadR}" y1="${by(v).toFixed(1)}" y2="${by(v).toFixed(1)}"/><text x="${bPadL - 6}" y="${(by(v) + 3.5).toFixed(1)}" text-anchor="end">${v}</text>`;
+  bars += '</g>';
+  const maxFeeds = Math.max(...sums.map(s => s.feeds));
+  sums.forEach((s, i) => {
+    const x0 = bPadL + i * slot + (slot - (bw * 3 + 4)) / 2;
+    const bar = (cls, v, j, label) => { if (!v) return ''; const yy = by(v); return `<rect class="${cls}" x="${(x0 + j * (bw + 2)).toFixed(1)}" y="${yy.toFixed(1)}" width="${bw.toFixed(1)}" height="${(by(0) - yy).toFixed(1)}" rx="3" data-tip="${esc(dayLabel(s.k) + ' · ' + label + ' ' + v)}"/>`; };
+    bars += bar('bar-f', s.feeds, 0, t('pat_feeds')) + bar('bar-w', s.wet, 1, t('pat_wet')) + bar('bar-d', s.dirty, 2, t('pat_dirty'));
+    if (s.feeds && s.feeds === maxFeeds) bars += `<text class="vlab" x="${(x0 + bw / 2).toFixed(1)}" y="${(by(s.feeds) - 4).toFixed(1)}" text-anchor="middle">${s.feeds}</text>`;
+    if (n <= 14 || i % 5 === 0 || i === keys.length - 1) bars += `<text x="${(x0 + (bw * 3 + 4) / 2).toFixed(1)}" y="${BH - bPadB + 15}" text-anchor="middle">${n <= 7 ? esc(dayLabel(s.k)) : G.keyParts(s.k).d}</text>`;
+  });
+  bars += `<line class="axis" x1="${bPadL}" x2="${BW - bPadR}" y1="${by(0)}" y2="${by(0)}" stroke="var(--rule)"/></svg>`;
+  const avgOf = f => { const arr = sums.filter(s => s.k !== today && (s.feeds || s.diapers || s.backfill)); return arr.length ? (arr.reduce((a, s) => a + f(s), 0) / arr.length).toFixed(1) : '—'; };
+  const totals = `<section class="card pat"><div class="cardhead"><h2>${esc(t('pat_totals'))}</h2><span class="sub">${esc(t('pat_avg'))}: ${avgOf(s => s.feeds)} ${esc(t('pat_feeds'))} · ${avgOf(s => s.wet)} ${esc(t('pat_wet'))} · ${avgOf(s => s.dirty)} ${esc(t('pat_dirty'))}</span></div><div class="chart" id="pat-bars">${bars}</div>
+    <div class="legend"><span class="feed"><i></i>${esc(t('pat_feeds'))}</span><span class="wet"><i></i>${esc(t('pat_wet'))}</span><span class="dirty"><i></i>${esc(t('pat_dirty'))}</span></div></section>`;
+
+  // sleep hours (single series) when any sleep logged
+  let sleepCard = '';
+  if (sums.some(s => s.sleepMin > 0)){
+    const maxS = Math.max(8, ...sums.map(s => s.sleepMin / 60));
+    const sy = v => bPadT + (1 - v / maxS) * (BH - bPadT - bPadB);
+    let sv = `<svg viewBox="0 0 ${BW} ${BH}" role="img" aria-label="${esc(t('pat_sleepHours'))}"><g class="grid">`;
+    for (let v = 0; v <= maxS; v += 4) sv += `<line x1="${bPadL}" x2="${BW - bPadR}" y1="${sy(v).toFixed(1)}" y2="${sy(v).toFixed(1)}"/><text x="${bPadL - 6}" y="${(sy(v) + 3.5).toFixed(1)}" text-anchor="end">${v}h</text>`;
+    sv += '</g>';
+    const sbw = Math.min(24, slot - 8);
+    sums.forEach((s, i) => { const v = s.sleepMin / 60; if (!v) return; const x0 = bPadL + i * slot + (slot - sbw) / 2; sv += `<rect class="bar-s" x="${x0.toFixed(1)}" y="${sy(v).toFixed(1)}" width="${sbw.toFixed(1)}" height="${(sy(0) - sy(v)).toFixed(1)}" rx="3" data-tip="${esc(dayLabel(s.k) + ' · ' + fmtD(s.sleepMin))}"/>`; if (n <= 14 || i % 5 === 0) sv += `<text x="${(x0 + sbw / 2).toFixed(1)}" y="${BH - bPadB + 15}" text-anchor="middle">${n <= 7 ? esc(dayLabel(s.k)) : G.keyParts(s.k).d}</text>`; });
+    sv += '</svg>';
+    sleepCard = `<section class="card pat"><div class="cardhead"><h2>${esc(t('pat_sleepHours'))}</h2><span class="sub">${esc(t('tot_typical', { x: C.sleepHoursFor(G.ageDays()) + ' h' }))}</span></div><div class="chart">${sv}</div></section>`;
+  }
+
+  // longest stretch line
+  const gaps = keys.map(k => { const g = G.longestGap(k); return g != null ? g / 60 : null; });
+  const known = gaps.filter(v => v != null);
+  let stretch = '';
+  if (known.length){
+    const LH = 170, lPadL = 34, lPadR = 40, lPadT = 14, lPadB = 24;
+    const maxG = Math.max(4, Math.ceil(Math.max(...known)));
+    const lx = i => lPadL + (keys.length === 1 ? 0 : i / (keys.length - 1)) * (BW - lPadL - lPadR);
+    const ly = v => lPadT + (1 - v / maxG) * (LH - lPadT - lPadB);
+    let ls = `<svg viewBox="0 0 ${BW} ${LH}" role="img" aria-label="${esc(t('pat_stretch'))}"><g class="grid">`;
+    for (let v = 0; v <= maxG; v += 2) ls += `<line x1="${lPadL}" x2="${BW - lPadR}" y1="${ly(v).toFixed(1)}" y2="${ly(v).toFixed(1)}"/><text x="${lPadL - 6}" y="${(ly(v) + 3.5).toFixed(1)}" text-anchor="end">${v}h</text>`;
+    ls += '</g>';
+    let d = '', pen = false;
+    gaps.forEach((v, i) => { if (v == null){ pen = false; return; } d += (pen ? 'L' : 'M') + lx(i).toFixed(1) + ' ' + ly(v).toFixed(1) + ' '; pen = true; });
+    ls += `<path class="line" d="${d.trim()}"/>`;
+    gaps.forEach((v, i) => { if (v == null) return; ls += `<circle class="pt" cx="${lx(i).toFixed(1)}" cy="${ly(v).toFixed(1)}" r="4.5" data-tip="${esc(dayLabel(keys[i]) + ' · ' + fmtD(v * 60))}"/>`; });
+    let lastI = -1; gaps.forEach((v, i) => { if (v != null) lastI = i; });
+    if (lastI >= 0) ls += `<text class="vlab" x="${(lx(lastI) + 8).toFixed(1)}" y="${(ly(gaps[lastI]) + 3.5).toFixed(1)}">${fmtD(gaps[lastI] * 60)}</text>`;
+    ls += `<text x="${lPadL}" y="${LH - 6}">${esc(G.fmtDateShort(keys[0], lang))}</text><text x="${BW - lPadR}" y="${LH - 6}" text-anchor="end">${esc(t('today').toLowerCase())}</text></svg>`;
+    stretch = `<section class="card pat"><div class="cardhead"><h2>${esc(t('pat_stretch'))}</h2><span class="sub">${esc(t('pat_longest'))}: <b class="mono">${esc(fmtD(Math.max(...known) * 60))}</b></span></div><div class="chart">${ls}</div></section>`;
+  }
+
+  // side balance
+  const sb = G.sideBalance(keys); const tot = sb.L + sb.R;
+  const side = tot ? `<section class="card"><div class="cardhead"><h2>${esc(t('pat_side'))}</h2><span class="sub">${esc(fmtD(tot))}</span></div>
+    <div class="sidebar" role="img" aria-label="${esc(t('pat_side'))}"><div class="L" style="width:${(sb.L / tot * 100).toFixed(1)}%"></div><div class="R" style="flex:1"></div></div>
+    <div class="sidelab"><span><b>${esc(t('pat_left'))}</b> ${Math.round(sb.L)} ${esc(t('min'))} · ${Math.round(sb.L / tot * 100)}%</span><span><b>${esc(t('pat_right'))}</b> ${Math.round(sb.R)} ${esc(t('min'))} · ${Math.round(sb.R / tot * 100)}%</span></div></section>`
+    : `<section class="card"><div class="cardhead"><h2>${esc(t('pat_side'))}</h2></div><p class="small muted">${esc(t('pat_noSides'))}</p></section>`;
+  if (!hasData) return `<div class="empty">${esc(t('pat_empty'))}</div>`;
+  return rhythm + totals + sleepCard + stretch + side;
+}
+function wirePatterns(root){
+  root.querySelectorAll('.pat .chart').forEach(container => {
+    const svg = container.querySelector('svg'); if (!svg) return;
+    svg.addEventListener('pointermove', ev => {
+      const el = ev.target.closest('[data-tip]');
+      let tip = container.querySelector('.tip');
+      if (!el){ if (tip) tip.remove(); return; }
+      if (!tip){ tip = document.createElement('div'); tip.className = 'tip'; container.appendChild(tip); }
+      tip.textContent = el.dataset.tip;
+      const r = container.getBoundingClientRect();
+      tip.style.left = G.clamp(ev.clientX - r.left, 50, r.width - 50) + 'px'; tip.style.top = (ev.clientY - r.top - 6) + 'px';
+    });
+    svg.addEventListener('pointerleave', () => { const tip = container.querySelector('.tip'); if (tip) tip.remove(); });
+  });
+}
+
+/* ---------------- DOCTOR SUMMARY ---------------- */
+function doctorData(){
+  const now = Date.now();
+  const evs = G.eventsBetween(now - 86400000, now).filter(e => e.s >= now - 86400000);
+  const feeds = evs.filter(e => e.t === 'feed');
+  const nursing = feeds.filter(e => e.sub === 'L' || e.sub === 'R');
+  const bottles = feeds.filter(e => e.sub === 'bottle');
+  const nurseMin = nursing.reduce((a, e) => a + ((e.e == null ? now : e.e) - e.s) / 60000, 0);
+  const bottleMl = bottles.reduce((a, e) => a + (e.a || 0), 0);
+  const wet = evs.filter(e => e.t === 'diaper' && (e.sub === 'wet' || e.sub === 'both')).length;
+  const dirty = evs.filter(e => e.t === 'diaper' && (e.sub === 'dirty' || e.sub === 'both')).length;
+  let gap = null; for (let i = 1; i < feeds.length; i++){ const a = feeds[i - 1], b = feeds[i]; const g = (b.s - (a.e != null && a.e > a.s ? a.e : a.s)) / 60000; if (gap == null || g > gap) gap = g; }
+  const L = nursing.filter(e => e.sub === 'L'), R = nursing.filter(e => e.sub === 'R');
+  const mins = arr => arr.reduce((a, e) => a + ((e.e == null ? now : e.e) - e.s) / 60000, 0);
+  const sleepMin = G.eventsBetween(now - 86400000, now).filter(e => e.t === 'sleep').reduce((a, e) => a + Math.max(0, Math.min(e.e == null ? now : e.e, now) - Math.max(e.s, now - 86400000)) / 60000, 0);
+  const all = G.eventsBetween(now - 7 * 86400000, now);
+  const lastFeed = all.filter(e => e.t === 'feed').pop();
+  const lastWet = all.filter(e => e.t === 'diaper' && (e.sub === 'wet' || e.sub === 'both')).pop();
+  const lastDirty = all.filter(e => e.t === 'diaper' && (e.sub === 'dirty' || e.sub === 'both')).pop();
+  const days = G.rangeKeys(7).map(k => Object.assign({ k }, G.summarize(k), { gap: G.longestGap(k) }));
+  return { now, feeds: feeds.length, nursing: nursing.length, nurseMin, bottles: bottles.length, bottleMl, wet, dirty, gap, L: L.length, R: R.length, Lmin: mins(L), Rmin: mins(R), sleepMin, lastFeed, lastWet, lastDirty, days };
+}
+function doctorHTML(){
+  const d = doctorData();
+  const today = G.todayKey();
+  const lastLine = e => e ? `${fmtT(e.s)} · ${agoStr(e.s)}${e.t === 'feed' ? ' (' + evLabel(e).replace(t('breast') + ' · ', '') + ')' : ''}` : t('doc_none');
+  const rows = d.days.map(s => `<tr class="${s.k === today ? 'today' : ''}"><td>${esc(dayLabel(s.k))}${s.k === today ? ' · ' + esc(t('today').toLowerCase()) : ''}</td><td>${s.feeds || (s.k === today ? '—' : 0)}</td><td>${s.wet}</td><td>${s.dirty}</td><td>${Math.round(s.breastMin) || '—'}</td><td>${s.sleepMin ? (s.sleepMin / 60).toFixed(1) : '—'}</td></tr>`).join('');
+  const past = d.days.filter(s => s.k !== today && (s.feeds || s.diapers || s.backfill));
+  const avg = f => past.length ? (past.reduce((a, s) => a + f(s), 0) / past.length).toFixed(1) : '—';
+  const sleepDays = past.filter(s => s.sleepMin);
+  return `<section class="card doc">
+    <div class="cardhead"><h2>${esc(t('doc_title'))}</h2><button class="btn sm primary" data-act="doc-copy">${esc(t('doc_copy'))}</button></div>
+    <p class="small muted" style="margin-bottom:8px">${esc(t('doc_sub'))}</p>
+    <dl><dt>${esc(t('doc_lastFeed'))}</dt><dd>${esc(lastLine(d.lastFeed))}</dd><dt>${esc(t('doc_lastWet'))}</dt><dd>${esc(lastLine(d.lastWet))}</dd><dt>${esc(t('doc_lastDirty'))}</dt><dd>${esc(lastLine(d.lastDirty))}</dd></dl>
+    <div class="eyebrow" style="margin:14px 0 4px">${esc(t('doc_24h'))}</div>
+    <dl>
+      <dt>${esc(t('doc_feeds'))}</dt><dd>${d.feeds} · ${d.nursing} ${esc(t('doc_nursing'))} (${Math.round(d.nurseMin)} ${esc(t('min'))}) · ${d.bottles} ${esc(t('doc_bottle'))}${d.bottleMl ? ' (' + esc(G.units.vol(d.bottleMl, G.prefs.vol)) + ')' : ''}</dd>
+      <dt>${esc(t('doc_wet'))}</dt><dd>${d.wet}</dd>
+      <dt>${esc(t('doc_dirty'))}</dt><dd>${d.dirty}</dd>
+      <dt>${esc(t('doc_stretch'))}</dt><dd>${d.gap != null ? esc(fmtD(d.gap)) : '—'}</dd>
+      <dt>${esc(t('doc_sides'))}</dt><dd>${d.L} ${esc(t('side_L').toLowerCase())} (${Math.round(d.Lmin)} ${esc(t('min'))}) · ${d.R} ${esc(t('side_R').toLowerCase())} (${Math.round(d.Rmin)} ${esc(t('min'))})</dd>
+      <dt>${esc(t('doc_sleep'))}</dt><dd>${d.sleepMin ? esc(fmtD(d.sleepMin)) : '—'}</dd>
+      <dt>${esc(t('doc_since'))}</dt><dd>${d.lastFeed ? esc(fmtD((d.now - (d.lastFeed.e != null ? d.lastFeed.e : d.lastFeed.s)) / 60000)) : '—'}</dd>
+    </dl>
+    <div class="eyebrow" style="margin:14px 0 2px">${esc(t('doc_7d'))}</div>
+    <div class="tblwrap"><table><thead><tr><th>${esc(t('doc_day'))}</th><th>${esc(t('doc_feeds'))}</th><th>${esc(t('pat_wet'))}</th><th>${esc(t('pat_dirty'))}</th><th>${esc(t('doc_min'))}</th><th>${esc(t('doc_sleep'))} h</th></tr></thead><tbody>${rows}
+      <tr class="avg"><td>${esc(t('doc_avg'))}</td><td>${avg(s => s.feeds)}</td><td>${avg(s => s.wet)}</td><td>${avg(s => s.dirty)}</td><td>${avg(s => s.breastMin)}</td><td>${sleepDays.length ? (sleepDays.reduce((a, s) => a + s.sleepMin, 0) / sleepDays.length / 60).toFixed(1) : '—'}</td></tr></tbody></table></div>
+    ${d.days.some(s => s.backfill) ? `<p class="src">${esc(t('doc_backfill'))}</p>` : ''}
+  </section>`;
+}
+function doctorText(){
+  const d = doctorData(); const today = G.todayKey();
+  const lines = [];
+  lines.push('Gonzalo Bedoya · ' + G.fmtDateLong(today, lang) + ' · ' + ageString(today, true));
+  const lastLine = e => e ? fmtT(e.s) + (G.dayKey(e.s) !== today ? ' (' + G.fmtDateShort(G.dayKey(e.s), lang) + ')' : '') + (e.t === 'feed' ? ' ' + evLabel(e).replace(t('breast') + ' · ', '') : '') : t('doc_none');
+  lines.push(t('doc_lastFeed') + ': ' + lastLine(d.lastFeed));
+  lines.push(t('doc_lastWet') + ': ' + lastLine(d.lastWet));
+  lines.push(t('doc_lastDirty') + ': ' + lastLine(d.lastDirty));
+  lines.push('');
+  lines.push(t('doc_24h').toUpperCase());
+  lines.push(t('doc_feeds') + ': ' + d.feeds + ' · ' + d.nursing + ' ' + t('doc_nursing') + ' (' + Math.round(d.nurseMin) + ' ' + t('min') + ') · ' + d.bottles + ' ' + t('doc_bottle') + (d.bottleMl ? ' (' + G.units.vol(d.bottleMl, G.prefs.vol) + ')' : ''));
+  lines.push(t('doc_wet') + ': ' + d.wet + ' · ' + t('doc_dirty') + ': ' + d.dirty);
+  lines.push(t('doc_stretch') + ': ' + (d.gap != null ? fmtD(d.gap) : '—'));
+  lines.push(t('doc_sides') + ': ' + d.L + ' L (' + Math.round(d.Lmin) + ' ' + t('min') + ') · ' + d.R + ' R (' + Math.round(d.Rmin) + ' ' + t('min') + ')');
+  if (d.sleepMin) lines.push(t('doc_sleep') + ': ' + fmtD(d.sleepMin));
+  lines.push('');
+  lines.push(t('doc_7d').toUpperCase());
+  const padR = (s, n) => String(s).padStart(n);
+  lines.push(padR(t('doc_day'), 7) + padR(t('doc_feeds'), 7) + padR(t('pat_wet'), 6) + padR(t('pat_dirty'), 7) + padR(t('min'), 5));
+  for (const s of d.days) lines.push(padR(dayLabel(s.k), 7) + padR(s.feeds || (s.k === today ? '—' : 0), 7) + padR(s.wet, 6) + padR(s.dirty, 7) + padR(Math.round(s.breastMin) || '—', 5));
+  const past = d.days.filter(s => s.k !== today && (s.feeds || s.diapers || s.backfill));
+  const avg = f => past.length ? (past.reduce((a, s) => a + f(s), 0) / past.length).toFixed(1) : '—';
+  lines.push(padR(t('doc_avg'), 7) + padR(avg(s => s.feeds), 7) + padR(avg(s => s.wet), 6) + padR(avg(s => s.dirty), 7) + padR(avg(s => s.breastMin), 5));
+  const gl = G.growthList();
+  if (gl.length){ lines.push(''); lines.push(t('doc_growth') + ':'); for (const m of gl.slice(-3)){ const b = []; if (m.w != null) b.push(G.units.wt(m.w, G.prefs.wt) + ' (' + t('g_pct', { p: G.fmtPct(G.percentile('wfa', m.w, G.ageDaysAt(m.d)).p, lang) }) + ')'); if (m.l != null) b.push(G.units.len(m.l, G.prefs.len)); if (m.h != null) b.push(t('g_head').toLowerCase() + ' ' + G.units.len(m.h, G.prefs.len)); lines.push('  ' + G.fmtDateShort(m.d, lang) + ': ' + b.join(' · ')); } }
+  const vax = G.state.data.health.vax || {}; const given = []; for (const g of C.VAX) for (const v of g.items) if (vax[v.id]) given.push(L(v.name) + ' (' + G.fmtDateShort(vax[v.id].d, lang) + ')');
+  lines.push(''); lines.push(t('doc_vax') + ': ' + (given.length ? given.join(', ') : t('doc_none')));
+  return lines.join('\n');
+}
+function openDoctorCopy(){
+  const text = doctorText();
+  openSheet(`<h2>${esc(t('doc_copy'))}</h2>
+    <textarea id="sharetext" class="mono" style="width:100%;min-height:240px;border:1px solid var(--rule);border-radius:10px;padding:10px;background:var(--card-2);font-size:12px">${esc(text)}</textarea>
+    <div class="actionsrow">${navigator.share ? `<button class="btn" data-act="share-native">${esc(t('share_native'))}</button>` : ''}<a class="btn" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">${esc(t('share_wa'))}</a><button class="btn primary" data-act="share-copy">${esc(t('share_copy'))}</button></div>`);
 }
 
 /* ---------------- SHEETS ---------------- */
@@ -2025,6 +2362,9 @@ document.addEventListener('click', async ev => {
     case 'step': { const inp = el.parentElement.querySelector('input'); inp.value = Math.max(0, Math.round(((parseFloat(inp.value) || 0) + parseFloat(v)) * 10) / 10); break; }
     case 'preset': { const inp = el.closest('.field').querySelector('input[name=a]'); inp.value = v; break; }
     case 'toastact': { const a = $('#toast')._actions[+el.dataset.i]; $('#toast').hidden = true; if (a) a.fn(); break; }
+    case 'logview': ui.logView = v; renderLog(); break;
+    case 'patrange': ui.patRange = +v; renderLog(); break;
+    case 'doc-copy': openDoctorCopy(); break;
     case 'logday': { const nk = G.addDays(ui.logDay, +v); if (nk <= G.todayKey() && nk >= G.PROFILE.dobKey) { ui.logDay = nk; renderLog(); } break; }
     case 'share': openShare(); break;
     case 'share-copy': copyText($('#sharetext').value); break;
@@ -2075,14 +2415,15 @@ function tick(){
   const now = Date.now();
   $$('[data-elapsed]').forEach(el => { el.textContent = G.fmtClock(now - (+el.dataset.elapsed)); });
   $$('[data-ago]').forEach(el => { el.textContent = fmtD((now - (+el.dataset.ago)) / 60000); });
+  $$('[data-hm]').forEach(el => { el.textContent = fmtHM((now - (+el.dataset.hm)) / 60000); });
 }
 let lastMinute = -1;
 setInterval(() => {
   tick();
   const m = Math.floor(Date.now() / 60000);
-  if (m !== lastMinute){ lastMinute = m; if (ui.tab === 'today' && !ui.sheet){ const ns = $('#nowstrip'); if (ns) ns.innerHTML = nowTilesHTML(); const rb = $('#ribbon-today'); if (rb) renderRibbon(rb, G.todayKey()); } if (G.todayKey() !== ui._day){ ui._day = G.todayKey(); renderAll(); } }
+  if (m !== lastMinute){ lastMinute = m; if (ui.tab === 'today' && !ui.sheet){ const ns = $('#nowstrip'); if (ns) ns.innerHTML = nowTilesHTML(); const hh = $('#hero'); if (hh){ hh.classList.remove('nursing'); hh.innerHTML = heroHTML(); } const rb = $('#ribbon-today'); if (rb) renderRibbon(rb, G.todayKey()); } if (G.todayKey() !== ui._day){ ui._day = G.todayKey(); renderAll(); } }
 }, 1000);
-window.addEventListener('resize', () => { clearTimeout(ui._rt); ui._rt = setTimeout(() => { if (ui.tab === 'today'){ const r = $('#ribbon-today'); if (r) renderRibbon(r, G.todayKey()); } else if (ui.tab === 'log'){ const r = $('#ribbon-log'); if (r) renderRibbon(r, ui.logDay); } else if (ui.tab === 'growth'){ const g = $('#gchart'); if (g && !ui.gTable) renderGrowthChart(g, ui.gMeasure, ui.gRange); } }, 150); });
+window.addEventListener('resize', () => { clearTimeout(ui._rt); ui._rt = setTimeout(() => { if (ui.tab === 'today'){ const r = $('#ribbon-today'); if (r) renderRibbon(r, G.todayKey()); } else if (ui.tab === 'log'){ if (ui.logView === 'patterns') renderLog(); else { const r = $('#ribbon-log'); if (r) renderRibbon(r, ui.logDay); } } else if (ui.tab === 'growth'){ const g = $('#gchart'); if (g && !ui.gTable) renderGrowthChart(g, ui.gMeasure, ui.gRange); } }, 150); });
 
 /* ---------------- init ---------------- */
 document.documentElement.lang = lang;
