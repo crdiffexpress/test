@@ -389,9 +389,42 @@ function exportSync(daysBack){
   out.health = { vax: h.vax || {}, visits: h.visits || {}, ms: h.ms || {}, ped: h.ped || {} };
   return SYNC_HEAD + '\n' + JSON.stringify(out);
 }
+function b64urlEncode(str){
+  const bytes = new TextEncoder().encode(str);
+  let bin = ''; for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function b64urlDecode(s){
+  s = s.replace(/-/g, '+').replace(/_/g, '/');
+  const bin = atob(s + '==='.slice((s.length + 3) % 4));
+  const bytes = Uint8Array.from(bin, ch => ch.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+/* pull the sync JSON out of a link, a pasted message, or the raw text */
+function extractPayload(text){
+  const m = /[#&?]gd=([A-Za-z0-9_-]{16,})/.exec(text);
+  if (m){ try { return b64urlDecode(m[1]); } catch (e) { throw new Error('format'); } }
+  const i = text.indexOf('{');
+  if (i < 0) throw new Error('format');
+  return text.slice(i).trim();
+}
+const SHARE_BASE = 'https://claude.ai/public/artifacts/7bbd10ec-b896-42ee-876d-026bfe69f4a3';
+function exportSyncUrl(daysBack){
+  const json = exportSync(daysBack).replace(SYNC_HEAD + '\n', '');
+  return SHARE_BASE + '#gd=' + b64urlEncode(json);
+}
+/* a link left in the address bar by the sender, if the frame can see it */
+async function consumeLinkPayload(){
+  try {
+    const h = (location.hash || '') + (location.search || '');
+    if (!/[#&?]gd=/.test(h)) return null;
+    const res = await importSync(h);
+    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+    return res;
+  } catch (e) { return null; }
+}
 async function importSync(text){
-  const i = text.indexOf('{'); if (i < 0) throw new Error('format');
-  const data = JSON.parse(text.slice(i).trim());
+  const data = JSON.parse(extractPayload(text));
   if (!data || data.v !== 1) throw new Error('format');
   let added = 0, updated = 0;
   for (const k of Object.keys(data.days || {})){
@@ -454,6 +487,6 @@ return {
   fmtTime, fmtDate, fmtDateLong, fmtDateShort, fmtDur, fmtClock, localInputValue, msFromInput,
   dayEvents, eventsBetween, allEvents, runningEvents, lastOf, putEvent, deleteEvent, moveEvent, putGrowth, putHealth, putProfile,
   boot, mergeLocalIntoShared, lsGet, LS_DATA,
-  lmsAt, zOf, xOfZ, Phi, zOfP, percentile, fmtPct, growthList, summarize, rangeKeys, longestGap, sideBalance, csvExport, saveFile, exportSync, importSync,
+  lmsAt, zOf, xOfZ, Phi, zOfP, percentile, fmtPct, growthList, summarize, rangeKeys, longestGap, sideBalance, csvExport, saveFile, exportSync, exportSyncUrl, importSync, consumeLinkPayload,
 };
 })();
