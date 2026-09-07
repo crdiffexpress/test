@@ -6,8 +6,13 @@ https://claude.ai/code/artifact/90fb26b5-11ce-4ca6-ba7d-36d1693d9578
 
 Declared capabilities: `db` (shared realtime log), `downloads` (CSV/JSON export), `sample` (ask Claude about the log).
 Because `db` is declared, the page is organization-internal: viewers must be signed in to the owner's claude.ai
-organization. To hand out a public link instead, republish with `capabilities: {}` and the app falls back to
-per-device storage plus the text share.
+organization.
+
+**Family edition** (`index-public.html`, no capabilities, shareable with anyone by link):
+https://claude.ai/code/artifact/7bbd10ec-b896-42ee-876d-026bfe69f4a3
+Same app with `window.GD_PUBLIC = true`: per-device storage, and a **sync text** bridge (Settings) that copies the
+log as `GONZALO-SYNC-1` JSON to paste on another phone; entries merge by id, so repeated pastes never duplicate.
+Both editions have the bridge, so Minerva's phone and the shared log can exchange entries through WhatsApp.
 
 ## What it does
 
@@ -26,7 +31,7 @@ per-device storage plus the text share.
   copy for the appointment) followed by the AAP 2026 vaccine schedule with dates computed from his birthday (CDC shared-decision tier marked),
   Bright Futures well-visit list, pediatrician card with tap-to-call, temperature alert under 3 months,
   Florida SHOTS / DH 680 note.
-- **Ask**: when the `sample` capability is available, sends the last 48 h of the log plus his age to Claude.
+- **Ask**: when the `sample` capability is available, sends the last 24 h of the log plus his age to Claude's quick tier.
 
 All times are shown in Miami time (America/New_York) wherever the page is opened.
 
@@ -45,7 +50,7 @@ All times are shown in Miami time (America/New_York) wherever the page is opened
 ## Build
 
 ```
-python3 build.py      # assembles index.html from src/
+python3 build.py      # assembles index.html and index-public.html from src/
 ```
 
 `src/who.js` is generated from the WHO expanded LMS tables (boys; weight-for-age, length-for-age,

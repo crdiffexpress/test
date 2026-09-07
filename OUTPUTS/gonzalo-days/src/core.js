@@ -223,7 +223,7 @@ function writeFailed(e){
 /* ---------------- boot: capabilities ---------------- */
 function applySnapshotDoc(target, id, data){ target[id] = data; }
 async function boot(){
-  const hasRuntime = !!(window.claude && typeof window.claude.use === 'function');
+  const hasRuntime = !window.GD_PUBLIC && !!(window.claude && typeof window.claude.use === 'function');
   if (!hasRuntime){
     state.mode = 'local';
     state.data = Object.assign(emptyData(), lsGet(LS_DATA, {}));
@@ -371,6 +371,52 @@ function sideBalance(keys){
   return { L, R };
 }
 
+/* ---------------- sync text (phone to phone, no server) ---------------- */
+const SYNC_HEAD = 'GONZALO-SYNC-1';
+function compactEvent(e){ const o = { id: e.id, t: e.t, s: e.s }; for (const k of ['sub', 'e', 'a', 'u', 'n', 'by', 'c', 'del']) if (e[k] != null && e[k] !== '' && e[k] !== false) o[k] = e[k]; return o; }
+function exportSync(daysBack){
+  const since = daysBack ? addDays(todayKey(), -(daysBack - 1)) : null;
+  const out = { v: 1, from: prefs.who || '', at: Date.now(), days: {}, growth: {}, health: {} };
+  for (const k of Object.keys(state.data.days).sort()){
+    if (since && k < since) continue;
+    const d = state.data.days[k]; const ev = {};
+    for (const e of Object.values(d.ev || {})) if (e && e.id) ev[e.id] = compactEvent(e);
+    if (Object.keys(ev).length || d.tot) out.days[k] = Object.assign({ ev }, d.tot ? { tot: d.tot } : {});
+  }
+  for (const m of Object.values(state.data.growth.m || {})) if (m && m.id) out.growth[m.id] = m;
+  const h = state.data.health || {};
+  out.health = { vax: h.vax || {}, visits: h.visits || {}, ms: h.ms || {}, ped: h.ped || {} };
+  return SYNC_HEAD + '\n' + JSON.stringify(out);
+}
+async function importSync(text){
+  const i = text.indexOf('{'); if (i < 0) throw new Error('format');
+  const data = JSON.parse(text.slice(i).trim());
+  if (!data || data.v !== 1) throw new Error('format');
+  let added = 0, updated = 0;
+  for (const k of Object.keys(data.days || {})){
+    const d = data.days[k];
+    for (const e of Object.values(d.ev || {})){
+      if (!e || !e.id || typeof e.s !== 'number') continue;
+      const cur = state.data.days[k] && state.data.days[k].ev && state.data.days[k].ev[e.id];
+      const inc = Object.assign({ e: null, a: null, n: '', by: '' }, e);
+      if (!cur){ await putEvent(inc); added++; }
+      else if ((inc.c || 0) > (cur.c || 0) || (inc.del && !cur.del) || (cur.e == null && inc.e != null)){ await putEvent(Object.assign({}, cur, inc)); updated++; }
+    }
+    if (d.tot && !(state.data.days[k] && state.data.days[k].tot)){
+      if (!state.data.days[k]) state.data.days[k] = { d: k, ev: {} };
+      state.data.days[k].tot = d.tot;
+      if (state.mode === 'db' && state.db){ try { await state.db.doc('days/' + k).set(clone(state.data.days[k])); } catch (e) { writeFailed(e); } } else lsSet(LS_DATA, state.data);
+      added++;
+    }
+  }
+  for (const m of Object.values(data.growth || {})){ if (!m || !m.id) continue; const cur = state.data.growth.m[m.id]; if (!cur){ await putGrowth(m); added++; } else if ((m.c || 0) > (cur.c || 0) || (m.del && !cur.del)){ await putGrowth(Object.assign({}, cur, m)); updated++; } }
+  const h = data.health || {};
+  for (const field of ['vax', 'visits', 'ms']){ for (const id of Object.keys(h[field] || {})){ const v = h[field][id]; const cur = (state.data.health[field] || {})[id]; if (v && !cur){ await putHealth(field, id, v); added++; } } }
+  if (h.ped && (h.ped.name || h.ped.phone) && !(state.data.health.ped && state.data.health.ped.name)){ for (const k of ['name', 'phone', 'notes']) if (h.ped[k]) await putHealth('ped', k, h.ped[k]); added++; }
+  emit();
+  return { added, updated, from: data.from || '', at: data.at || null };
+}
+
 /* ---------------- export ---------------- */
 function csvExport(){
   const rows = [['date', 'start_local', 'end_local', 'type', 'subtype', 'amount', 'unit', 'minutes', 'note', 'by']];
@@ -407,6 +453,6 @@ return {
   fmtTime, fmtDate, fmtDateLong, fmtDateShort, fmtDur, fmtClock, localInputValue, msFromInput,
   dayEvents, eventsBetween, allEvents, runningEvents, lastOf, putEvent, deleteEvent, moveEvent, putGrowth, putHealth, putProfile,
   boot, mergeLocalIntoShared, lsGet, LS_DATA,
-  lmsAt, zOf, xOfZ, Phi, zOfP, percentile, fmtPct, growthList, summarize, rangeKeys, longestGap, sideBalance, csvExport, saveFile,
+  lmsAt, zOf, xOfZ, Phi, zOfP, percentile, fmtPct, growthList, summarize, rangeKeys, longestGap, sideBalance, csvExport, saveFile, exportSync, importSync,
 };
 })();

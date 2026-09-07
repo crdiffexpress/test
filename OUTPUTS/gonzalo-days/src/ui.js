@@ -92,9 +92,10 @@ function renderHeader(){
   $('#whobtn').innerHTML = `<span class="dot" style="background:var(--sun)"></span>${esc(who || t('who'))}`;
   const m = G.state.mode;
   const cls = m === 'db' ? 'live' : (m === 'local' ? 'local' : '');
-  const label = G.state.writeError && m === 'db' ? t('sync_error') : t(m === 'db' ? 'sync_live' : m === 'local' ? 'sync_local' : m === 'readonly' ? 'sync_readonly' : 'sync_connecting');
+  const pub = !!window.GD_PUBLIC;
+  const label = pub ? t('public_chip') : (G.state.writeError && m === 'db' ? t('sync_error') : t(m === 'db' ? 'sync_live' : m === 'local' ? 'sync_local' : m === 'readonly' ? 'sync_readonly' : 'sync_connecting'));
   $('#syncbtn').innerHTML = `<span class="dot ${cls}"></span>${esc(label)}`;
-  $('#syncbtn').title = m === 'db' ? t('sync_live_tip') : t('sync_local_tip');
+  $('#syncbtn').title = pub ? t('public_tip') : (m === 'db' ? t('sync_live_tip') : t('sync_local_tip'));
   $('#robanner').hidden = m !== 'readonly';
 }
 
@@ -987,6 +988,23 @@ async function saveSheetForm(){
   toast(t(old ? 'saved' : 'logged', { x: evLabel(e) }));
 }
 
+/* sync sheets */
+function openSyncCopy(range){
+  range = range || 3;
+  const text = G.exportSync(range === 'all' ? 0 : range);
+  openSheet(`<h2>${esc(t('sync_copy'))}</h2><p class="small muted">${esc(t('sync_hint'))}</p>
+    <div class="seg full">${[[3, t('sync_range3')], [7, t('sync_range7')], ['all', t('sync_rangeAll')]].map(o => `<button data-act="sync-range" data-v="${o[0]}" aria-pressed="${String(o[0]) === String(range)}">${esc(o[1])}</button>`).join('')}</div>
+    <textarea id="sharetext" class="mono" readonly style="width:100%;min-height:120px;border:1px solid var(--rule);border-radius:10px;padding:10px;background:var(--card-2);font-size:11px">${esc(text)}</textarea>
+    <p class="small muted">${Math.round(text.length / 1024)} KB</p>
+    <div class="actionsrow">${navigator.share ? `<button class="btn" data-act="share-native">${esc(t('share_native'))}</button>` : ''}${text.length < 60000 ? `<a class="btn" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">${esc(t('share_wa'))}</a>` : ''}<button class="btn primary" data-act="share-copy">${esc(t('share_copy'))}</button></div>`);
+}
+function openSyncPaste(){
+  openSheet(`<h2>${esc(t('sync_paste'))}</h2><p class="small muted">${esc(t('sync_pasteSub'))}</p>
+    <textarea id="synctext" class="mono" style="width:100%;min-height:140px;border:1px solid var(--rule);border-radius:10px;padding:10px;background:var(--card-2);font-size:11px" placeholder="GONZALO-SYNC-1"></textarea>
+    <div class="actionsrow"><button class="btn" data-act="sheet-close">${esc(t('cancel'))}</button><button class="btn primary" data-act="sync-merge">${esc(t('sync_merge'))}</button></div>`);
+  setTimeout(() => { const ta = $('#synctext'); if (ta) ta.focus(); }, 50);
+}
+
 /* who / settings / ped / vax sheets */
 function openWho(force){
   const cg = (G.state.data.profile.caregivers || ['Jose', 'Minerva']);
@@ -1008,6 +1026,7 @@ function openSettings(){
       <div class="field"><label>${esc(t('s_who'))}</label><button class="btn" data-act="who">${esc(G.prefs.who || t('who'))}</button></div>
     </div>
     <div class="field"><label>${esc(t('s_caregivers'))}</label><div class="row"><span class="small">${esc((G.state.data.profile.caregivers || []).join(', '))}</span></div><div class="row"><input type="text" id="newcg" placeholder="${esc(t('who_name'))}" maxlength="30" style="flex:1;border:1px solid var(--rule);border-radius:8px;padding:8px;background:var(--card-2)"><button class="btn sm" data-act="addcg">${esc(t('s_addCg'))}</button></div></div>
+    <div class="field"><label>${esc(t('sync_title'))}</label><p class="small muted" style="margin-bottom:6px">${esc(t('sync_sub'))}</p><div class="row"><button class="btn sm primary" data-act="sync-copy">${esc(t('sync_copy'))}</button><button class="btn sm" data-act="sync-paste">${esc(t('sync_paste'))}</button></div></div>
     <div class="row"><button class="btn sm" data-act="backup">${esc(t('log_backup'))}</button><button class="btn sm" data-act="export">${esc(t('log_export'))}</button><label class="btn sm" style="cursor:pointer">${esc(t('s_restore'))}<input type="file" id="restore" accept="application/json,.json" hidden></label></div>
     ${G.state.mode === 'db' && hasLocal ? `<button class="btn" data-act="merge">${esc(t('s_merge'))}</button>` : ''}
     <div><div class="eyebrow" style="margin-bottom:4px">${esc(t('s_about'))}</div><p class="small muted">${esc(t('s_aboutText'))}</p></div>
@@ -1111,6 +1130,10 @@ document.addEventListener('click', async ev => {
     case 'step': { const inp = el.parentElement.querySelector('input'); inp.value = Math.max(0, Math.round(((parseFloat(inp.value) || 0) + parseFloat(v)) * 10) / 10); break; }
     case 'preset': { const inp = el.closest('.field').querySelector('input[name=a]'); inp.value = v; break; }
     case 'toastact': { const a = $('#toast')._actions[+el.dataset.i]; $('#toast').hidden = true; if (a) a.fn(); break; }
+    case 'sync-copy': openSyncCopy(3); break;
+    case 'sync-range': openSyncCopy(v === 'all' ? 'all' : +v); break;
+    case 'sync-paste': openSyncPaste(); break;
+    case 'sync-merge': { const txt = ($('#synctext') && $('#synctext').value) || ''; if (!txt.trim()) return; try { const r = await G.importSync(txt); closeSheet(); toast(t('sync_done', { a: r.added, u: r.updated, from: r.from ? t('sync_from', { who: r.from }) : '' })); } catch (e) { toast(t('sync_bad')); } break; }
     case 'logview': ui.logView = v; renderLog(); break;
     case 'patrange': ui.patRange = +v; renderLog(); break;
     case 'doc-copy': openDoctorCopy(); break;
