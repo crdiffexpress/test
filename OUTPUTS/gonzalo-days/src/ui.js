@@ -56,6 +56,7 @@ function renderShell(){
     <div class="topctl">
       <button class="chipbtn" id="whobtn" data-act="who" title="${esc(t('who'))}"></button>
       <button class="chipbtn" id="syncbtn" data-act="settings"></button>
+      <button class="chipbtn" data-act="sync-paste" title="${esc(t('sync_title'))}"><svg width="13" height="13" viewBox="0 0 24 24" style="stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><path d="M3 8h14l-3-3M21 16H7l3 3"/></svg>${esc(t('sync_chip'))}</button>
       <div class="langtog" role="group" aria-label="Language">
         <button data-act="lang" data-v="en" aria-pressed="${lang === 'en'}">EN</button>
         <button data-act="lang" data-v="es" aria-pressed="${lang === 'es'}">ES</button>
@@ -989,6 +990,12 @@ async function saveSheetForm(){
 }
 
 /* sync sheets */
+function openTextFile(name, text){
+  openSheet(`<h2>${esc(t('dl_title'))}</h2><p class="small muted">${esc(t('dl_sub'))}</p>
+    <p class="small mono">${esc(name)} · ${Math.max(1, Math.round(text.length / 1024))} KB</p>
+    <textarea id="sharetext" class="mono" readonly style="width:100%;min-height:200px;border:1px solid var(--rule);border-radius:10px;padding:10px;background:var(--card-2);font-size:11px">${esc(text)}</textarea>
+    <div class="actionsrow"><button class="btn" data-act="sheet-close">${esc(t('close'))}</button><button class="btn primary" data-act="share-copy">${esc(t('share_copy'))}</button></div>`);
+}
 function openSyncCopy(range, asLink){
   range = range || 3;
   const text = asLink ? G.exportSyncUrl(range === 'all' ? 0 : range) : G.exportSync(range === 'all' ? 0 : range);
@@ -1002,8 +1009,8 @@ function openSyncPaste(){
   openSheet(`<h2>${esc(t('sync_paste'))}</h2><p class="small muted">${esc(t('sync_pasteSub'))}</p>
     <button class="btn primary" data-act="sync-clip" style="width:100%">${esc(t('sync_pasteBtn'))}</button>
     <textarea id="synctext" class="mono" style="width:100%;min-height:120px;border:1px solid var(--rule);border-radius:10px;padding:10px;background:var(--card-2);font-size:11px" placeholder="GONZALO-SYNC-1"></textarea>
-    <div class="actionsrow"><button class="btn" data-act="sheet-close">${esc(t('cancel'))}</button><button class="btn primary" data-act="sync-merge">${esc(t('sync_merge'))}</button></div>`);
-  setTimeout(() => { const ta = $('#synctext'); if (ta) ta.focus(); }, 50);
+    <div class="actionsrow"><button class="btn" data-act="sheet-close">${esc(t('cancel'))}</button><button class="btn primary" data-act="sync-merge">${esc(t('sync_merge'))}</button></div>
+    <div style="border-top:1px solid var(--rule);padding-top:10px"><div class="eyebrow" style="margin-bottom:6px">${esc(t('sync_or'))}</div><button class="btn" data-act="sync-link" style="width:100%">${esc(t('sync_link'))}</button></div>`);
 }
 
 /* who / settings / ped / vax sheets */
@@ -1144,8 +1151,8 @@ document.addEventListener('click', async ev => {
     case 'share': openShare(); break;
     case 'share-copy': copyText($('#sharetext').value); break;
     case 'share-native': { try { await navigator.share({ text: $('#sharetext').value }); } catch (e){} break; }
-    case 'export': { const r = await G.saveFile('gonzalo-days-' + G.todayKey() + '.csv', G.csvExport()); if (r === 'saved') toast(t('saved')); break; }
-    case 'backup': { const r = await G.saveFile('gonzalo-days-backup-' + G.todayKey() + '.json', JSON.stringify(G.state.data, null, 1)); if (r === 'saved') toast(t('saved')); break; }
+       case 'export': { const data = G.csvExport(); const name = 'gonzalo-days-' + G.todayKey() + '.csv'; if (!G.state.downloads){ openTextFile(name, data); break; } const r = await G.saveFile(name, data); if (r === 'saved') toast(t('saved')); break; }
+       case 'backup': { const data = JSON.stringify(G.state.data, null, 1); const name = 'gonzalo-days-backup-' + G.todayKey() + '.json'; if (!G.state.downloads){ openTextFile(name, data); break; } const r = await G.saveFile(name, data); if (r === 'saved') toast(t('saved')); break; }
     case 'gm': ui.gMeasure = v; renderGrowth(); break;
     case 'gr': ui.gRange = +v; renderGrowth(); break;
     case 'gt': ui.gTable = v === '1'; renderGrowth(); break;

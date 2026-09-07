@@ -99,7 +99,7 @@ header.top{
 }
 .brand .age{font-size:13.5px;color:var(--ink-2)}
 .brand .age b{color:var(--ink);font-weight:600}
-.topctl{display:flex;align-items:center;gap:8px}
+.topctl{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
 .chipbtn{
   appearance:none;border:1px solid var(--rule);background:var(--card);border-radius:999px;
   padding:6px 11px;font-size:12.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;
@@ -554,7 +554,7 @@ en: {
   hero_since: 'since last feed', hero_nursing: 'nursing now', hero_next: 'next side', hero_none: 'no feed logged yet', hero_last: 'last', hero_hrs: 'h',
   doc_title: 'For the pediatrician', doc_sub: 'Everything the visit will ask, in one copy.', doc_24h: 'Last 24 hours', doc_7d: 'Last 7 days', doc_copy: 'Copy for the appointment', doc_feeds: 'Feeds', doc_nursing: 'nursing', doc_bottle: 'bottle', doc_wet: 'Wet diapers', doc_dirty: 'Dirty diapers', doc_stretch: 'Longest stretch between feeds', doc_sides: 'Left vs right', doc_since: 'Since last feed', doc_sleep: 'Sleep', doc_day: 'Day', doc_min: 'Nursing min', doc_avg: 'avg', doc_lastFeed: 'Last feed', doc_lastWet: 'Last wet diaper', doc_lastDirty: 'Last dirty diaper', doc_growth: 'Latest measurements', doc_vax: 'Vaccines given', doc_none: 'none yet', doc_backfill: 'Sep 1–6 are daily totals carried over from the previous app.',
   tot_backfill: 'totals from the previous app',
-  sync_link: 'Send my log as a link', sync_linkSub: 'Send this on WhatsApp. Whoever opens it taps Paste and everything merges.', sync_pasteBtn: 'Paste from clipboard', sync_pasteFail: 'Nothing to paste. Copy the message first, then tap Paste.', sync_wa: 'Send on WhatsApp',
+  sync_chip: 'Sync', dl_title: 'Copy the file', dl_sub: 'This page cannot save files to your phone, so here is the content. Copy it and paste it wherever you keep it.', sync_or: 'or send yours', sync_link: 'Send my log as a link', sync_linkSub: 'Send this on WhatsApp. Whoever opens it taps Paste and everything merges.', sync_pasteBtn: 'Paste from clipboard', sync_pasteFail: 'Nothing to paste. Copy the message first, then tap Paste.', sync_wa: 'Send on WhatsApp',
   sync_title: 'Sync with the other phone', sync_sub: 'No account needed. Copy the log as text, send it on WhatsApp, and paste it on the other phone. Entries merge by id, so pasting twice never duplicates.', sync_copy: 'Copy sync text', sync_paste: 'Paste sync text', sync_range3: 'last 3 days', sync_range7: 'last 7 days', sync_rangeAll: 'everything', sync_pasteSub: 'Paste the text that starts with GONZALO-SYNC-1.', sync_merge: 'Merge', sync_done: '{a} added, {u} updated{from}', sync_from: ' from {who}', sync_bad: 'That does not look like a sync text.', sync_hint: 'Send this to the other phone and paste it there under Settings, Paste sync text.',
   public_chip: 'Family edition', public_tip: 'This phone keeps its own log. Use Settings, Sync with the other phone to exchange entries with Jose\'s phone.',
   months_short: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
@@ -601,7 +601,7 @@ es: {
   hero_since: 'desde la última toma', hero_nursing: 'mamando ahora', hero_next: 'siguiente lado', hero_none: 'ninguna toma registrada', hero_last: 'última', hero_hrs: 'h',
   doc_title: 'Para el pediatra', doc_sub: 'Todo lo que preguntan en la visita, en una copia.', doc_24h: 'Últimas 24 horas', doc_7d: 'Últimos 7 días', doc_copy: 'Copiar para la cita', doc_feeds: 'Tomas', doc_nursing: 'pecho', doc_bottle: 'biberón', doc_wet: 'Pañales con pipí', doc_dirty: 'Pañales con caca', doc_stretch: 'Tramo más largo entre tomas', doc_sides: 'Izquierdo vs derecho', doc_since: 'Desde la última toma', doc_sleep: 'Sueño', doc_day: 'Día', doc_min: 'Min pecho', doc_avg: 'media', doc_lastFeed: 'Última toma', doc_lastWet: 'Último pañal con pipí', doc_lastDirty: 'Último pañal con caca', doc_growth: 'Últimas medidas', doc_vax: 'Vacunas puestas', doc_none: 'ninguna aún', doc_backfill: 'Del 1 al 6 de sept. son totales diarios traídos de la app anterior.',
   tot_backfill: 'totales de la app anterior',
-  sync_link: 'Enviar mi registro como enlace', sync_linkSub: 'Envíalo por WhatsApp. Quien lo abra toca Pegar y todo se combina.', sync_pasteBtn: 'Pegar del portapapeles', sync_pasteFail: 'No hay nada que pegar. Copia el mensaje primero y toca Pegar.', sync_wa: 'Enviar por WhatsApp',
+  sync_chip: 'Sincronizar', dl_title: 'Copiar el archivo', dl_sub: 'Esta página no puede guardar archivos en el móvil, así que aquí tienes el contenido. Cópialo y pégalo donde lo guardes.', sync_or: 'o envía el tuyo', sync_link: 'Enviar mi registro como enlace', sync_linkSub: 'Envíalo por WhatsApp. Quien lo abra toca Pegar y todo se combina.', sync_pasteBtn: 'Pegar del portapapeles', sync_pasteFail: 'No hay nada que pegar. Copia el mensaje primero y toca Pegar.', sync_wa: 'Enviar por WhatsApp',
   sync_title: 'Sincronizar con el otro móvil', sync_sub: 'Sin cuenta. Copia el registro como texto, envíalo por WhatsApp y pégalo en el otro móvil. Las entradas se combinan por id, así que pegar dos veces nunca duplica.', sync_copy: 'Copiar texto de sincronización', sync_paste: 'Pegar texto de sincronización', sync_range3: 'últimos 3 días', sync_range7: 'últimos 7 días', sync_rangeAll: 'todo', sync_pasteSub: 'Pega el texto que empieza por GONZALO-SYNC-1.', sync_merge: 'Combinar', sync_done: '{a} añadidas, {u} actualizadas{from}', sync_from: ' de {who}', sync_bad: 'Eso no parece un texto de sincronización.', sync_hint: 'Envía esto al otro móvil y pégalo allí en Ajustes, Pegar texto de sincronización.',
   public_chip: 'Edición familiar', public_tip: 'Este móvil guarda su propio registro. Usa Ajustes, Sincronizar con el otro móvil para intercambiar entradas con el móvil de Jose.',
   months_short: ['ene','feb','mar','abr','may','jun','jul','ago','sept','oct','nov','dic'],
@@ -1393,6 +1393,7 @@ function renderShell(){
     <div class="topctl">
       <button class="chipbtn" id="whobtn" data-act="who" title="${esc(t('who'))}"></button>
       <button class="chipbtn" id="syncbtn" data-act="settings"></button>
+      <button class="chipbtn" data-act="sync-paste" title="${esc(t('sync_title'))}"><svg width="13" height="13" viewBox="0 0 24 24" style="stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><path d="M3 8h14l-3-3M21 16H7l3 3"/></svg>${esc(t('sync_chip'))}</button>
       <div class="langtog" role="group" aria-label="Language">
         <button data-act="lang" data-v="en" aria-pressed="${lang === 'en'}">EN</button>
         <button data-act="lang" data-v="es" aria-pressed="${lang === 'es'}">ES</button>
@@ -2326,6 +2327,12 @@ async function saveSheetForm(){
 }
 
 /* sync sheets */
+function openTextFile(name, text){
+  openSheet(`<h2>${esc(t('dl_title'))}</h2><p class="small muted">${esc(t('dl_sub'))}</p>
+    <p class="small mono">${esc(name)} · ${Math.max(1, Math.round(text.length / 1024))} KB</p>
+    <textarea id="sharetext" class="mono" readonly style="width:100%;min-height:200px;border:1px solid var(--rule);border-radius:10px;padding:10px;background:var(--card-2);font-size:11px">${esc(text)}</textarea>
+    <div class="actionsrow"><button class="btn" data-act="sheet-close">${esc(t('close'))}</button><button class="btn primary" data-act="share-copy">${esc(t('share_copy'))}</button></div>`);
+}
 function openSyncCopy(range, asLink){
   range = range || 3;
   const text = asLink ? G.exportSyncUrl(range === 'all' ? 0 : range) : G.exportSync(range === 'all' ? 0 : range);
@@ -2339,8 +2346,8 @@ function openSyncPaste(){
   openSheet(`<h2>${esc(t('sync_paste'))}</h2><p class="small muted">${esc(t('sync_pasteSub'))}</p>
     <button class="btn primary" data-act="sync-clip" style="width:100%">${esc(t('sync_pasteBtn'))}</button>
     <textarea id="synctext" class="mono" style="width:100%;min-height:120px;border:1px solid var(--rule);border-radius:10px;padding:10px;background:var(--card-2);font-size:11px" placeholder="GONZALO-SYNC-1"></textarea>
-    <div class="actionsrow"><button class="btn" data-act="sheet-close">${esc(t('cancel'))}</button><button class="btn primary" data-act="sync-merge">${esc(t('sync_merge'))}</button></div>`);
-  setTimeout(() => { const ta = $('#synctext'); if (ta) ta.focus(); }, 50);
+    <div class="actionsrow"><button class="btn" data-act="sheet-close">${esc(t('cancel'))}</button><button class="btn primary" data-act="sync-merge">${esc(t('sync_merge'))}</button></div>
+    <div style="border-top:1px solid var(--rule);padding-top:10px"><div class="eyebrow" style="margin-bottom:6px">${esc(t('sync_or'))}</div><button class="btn" data-act="sync-link" style="width:100%">${esc(t('sync_link'))}</button></div>`);
 }
 
 /* who / settings / ped / vax sheets */
@@ -2481,8 +2488,8 @@ document.addEventListener('click', async ev => {
     case 'share': openShare(); break;
     case 'share-copy': copyText($('#sharetext').value); break;
     case 'share-native': { try { await navigator.share({ text: $('#sharetext').value }); } catch (e){} break; }
-    case 'export': { const r = await G.saveFile('gonzalo-days-' + G.todayKey() + '.csv', G.csvExport()); if (r === 'saved') toast(t('saved')); break; }
-    case 'backup': { const r = await G.saveFile('gonzalo-days-backup-' + G.todayKey() + '.json', JSON.stringify(G.state.data, null, 1)); if (r === 'saved') toast(t('saved')); break; }
+       case 'export': { const data = G.csvExport(); const name = 'gonzalo-days-' + G.todayKey() + '.csv'; if (!G.state.downloads){ openTextFile(name, data); break; } const r = await G.saveFile(name, data); if (r === 'saved') toast(t('saved')); break; }
+       case 'backup': { const data = JSON.stringify(G.state.data, null, 1); const name = 'gonzalo-days-backup-' + G.todayKey() + '.json'; if (!G.state.downloads){ openTextFile(name, data); break; } const r = await G.saveFile(name, data); if (r === 'saved') toast(t('saved')); break; }
     case 'gm': ui.gMeasure = v; renderGrowth(); break;
     case 'gr': ui.gRange = +v; renderGrowth(); break;
     case 'gt': ui.gTable = v === '1'; renderGrowth(); break;
