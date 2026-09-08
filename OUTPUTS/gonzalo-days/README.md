@@ -14,7 +14,9 @@ Same app with `window.GD_PUBLIC = true`: per-device storage, and a **sync text**
 log as `GONZALO-SYNC-1` JSON to paste on another phone; entries merge by id, so repeated pastes never duplicate.
 Both editions have the bridge, so Minerva's phone and the shared log can exchange entries through WhatsApp.
 The family edition also ships with the shared log embedded as a seed (`window.GD_SEED`), merged idempotently on
-every open, so it starts with the full history. Regenerate before republishing:
+every open, so it starts with the full history. The seed carries tombstones and end times, not just live entries,
+so a refreshed seed also removes what was deleted in the shared log and closes a timer that was still running when
+the previous seed was taken. Regenerate before republishing:
 
 ```
 # dump the shared store with the Artifact tool (read_db, out_dir=<dump>), then
